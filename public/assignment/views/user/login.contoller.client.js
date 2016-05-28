@@ -1,4 +1,3 @@
-
 (function() {
     angular
         .module("WebAppMaker")
@@ -10,7 +9,7 @@
         vm.login = login;
         function login(username, password) {
 
-            var user = UserService.findUserByCredentials(username, password);
+            var user = UserService.findUserByUsernameAndPassword(username, password);
 
             if(user) {
                 var id = user._id;

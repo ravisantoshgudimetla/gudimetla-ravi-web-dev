@@ -1,4 +1,3 @@
-
 (function() {
     angular
         .module("WebAppMaker")
@@ -16,7 +15,7 @@
             createUser: createUser,
             findUserById: findUserById,
             findUserByUsername: findUserByUsername,
-            findUserByCredentials: findUserByCredentials,
+            findUserByUsernameAndPassword: findUserByUsernameAndPassword,
             updateUser: updateUser,
             deleteUser: deleteUser
         };
@@ -44,7 +43,7 @@
             return null;
         }
 
-        function findUserByCredentials(username, password) {
+        function findUserByUsernameAndPassword(username, password) {
             for(var i in users) {
                 if(users[i].username === username && users[i].password == password) {
                     return users[i];

@@ -1,95 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="viewport" content="initial-scale=1.25, user-scalable = no">
-    <meta charset="UTF-8">
-    <title>Page-List</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../css/style.css" rel="stylesheet"/>
-</head>
-<body>
 <header>
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <p class="navbar-text pull-left">
-                <a href="../views/website/website-list.html" class="navbar-link">
-                  <span class="glyphicon glyphicon-chevron-left">
-                  </span>
-                </a>
-            </p>
-            <a class="navbar-brand" href="#">
-                Pages
-            </a>
-            <p class="navbar-text pull-right">
-                <a href="page-new.html" class="navbar-link">
-                  <span class="glyphicon glyphicon-plus">
-                  </span>
-                </a>
-            </p>
-        </div>
-    </div>
-</nav>
-</header>
 
-    <div class="container">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="../views/widget/widget-list.html">
-                    Gizmodo
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <p class="navbar-text navbar-left pull-left">
+                    <a href="#/user/{{model.uid}}/website"
+                       class="navbar-link">
+                        <span class="glyphicon glyphicon-chevron-left pull-left nav-glyphicon"></span>
+                    </a>
+                </p>
+                <a class="navbar-brand">
+                    Pages
                 </a>
-                <a href=page-edit-view.client.html class="pull-right">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href="../views/widget/widget-list.html">
-                    Home
-                </a>
-                <a href="page-edit-view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href="../views/widget/widget-list.html">
-                    About
-                </a>
-                <a href="page-edit-view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href="../views/widget/widget-list.html">
-                    Product List
-                </a>
-                <a href="page-edit-view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href="../views/widget/widget-list.html">
-                    Contact Us
-                </a>
-                <a href="page-edit-view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </a>
-            </li>
-        </ul>
-    </div>
+                <p class="navbar-text navbar-right">
+                    <a href="#/user/{{model.uid}}/website/{{model.wid}}/page/new"
+                       class="navbar-link">
+                        <span class="glyphicon glyphicon-plus pull-right nav-glyphicon"></span>
+                    </a>
+                </p>
 
-<footer>
-<nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container">
-        <div class="row navbar-text">
-                <a href="../views/user/profile.view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-user nav-glyphicon"></span>
-                </a>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</header>
 
-</body>
-</html>
+
+<div class="container-fluid">
+    <ul class="list-group">
+        <li ng-repeat="page in model.pages"
+            class="list-group-item">
+            <a  href="#/user/{{model.uid}}/website/{{page.websiteId}}/page/{{page._id}}">
+                <span class="glyphicon glyphicon-cog pull-right"></span>
+            </a>
+            <a  href="#/user/{{model.uid}}/website/{{page.websiteId}}/page/{{page._id}}/widget">
+                {{page.name}}
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<footer>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid">
+            <div class="navbar-header">
+
+                <div class="navbar-text pull-right">
+                    <a href="#/user/{{model.uid}}">
+                        <span class="glyphicon glyphicon-user nav-glyphicon"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</footer>

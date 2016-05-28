@@ -21,6 +21,7 @@
                 controller: "RegisterController",
                 controllerAs: "model"
             })
+
             .when("/user/:uid", {
                 templateUrl: "views/user/profile.view.client.html",
                 controller: "ProfileController",

@@ -1,4 +1,3 @@
-
 (function() {
     angular
         .module("WebAppMaker")
@@ -27,4 +26,3 @@
     }
 
 })();
-

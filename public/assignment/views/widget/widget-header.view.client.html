@@ -1,30 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="viewport" content="initial-scale=1.25, user-scalable=no">
-    <title>Widget Edit - Header</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
-</head>
-<body>
 <header>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <p class="navbar-text navbar-left pull-left">
-                    <a href="widget-list.html"
+                    <a href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget"
                        class="navbar-link">
-                        <span class="glyphicon glyphicon-chevron-left pull-left"></span>
+                        <span class="glyphicon glyphicon-chevron-left pull-left nav-glyphicon"></span>
                     </a>
                 </p>
                 <a class="navbar-brand">
                     Widget Edit
                 </a>
                 <p class="navbar-text navbar-right">
-                    <a href="widget-list.html"
+                    <a ng-click="model.updateWidget()"
                        class="navbar-link">
                         <span class="glyphicon glyphicon-ok pull-right nav-glyphicon"></span>
                     </a>
@@ -36,55 +24,24 @@
 
 </header>
 
-<div class="container-fluid">
-    <form>
-        <div class="form-group">
-
-            <label for="widget-name">Name</label>
-            <input name="widget-name"
-                   id="widget-name"
-                   type="text"
-                   class="form-control"
-                   placeholder="My Header"
-                   value="Widget Header"/>
-        </div>
-
-        <div class="form-group">
-            <label for="widget-text">Text</label>
-            <input name="widget-text"
-                   id="widget-text"
-                   type="text"
-                   class="form-control"
-                   placeholder="Header"
-                   value="New Widget header"/>
-        </div>
-
-        <div class="form-group">
-            <label for="widget-size">Size</label>
-            <select class="form-control"
-                    id="widget-size">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option selected="selected" value="3">3</option>
-                <option value="4">4</option>
-
-            </select>
-        </div>
-
-        <a  class="btn btn-block btn-danger"
-            href="widget-list.html">
-            Delete
-        </a>
-    </form>
+<div ng-switch="model.widget.widgetType">
+    <div ng-switch-when="HEADER">
+        <ng-include src="'views/widget/widget-header.view.client.html'">
+    </div>
+    <div ng-switch-when="IMAGE">
+        <ng-include src="'views/widget/widget-image.view.client.html'">
+    </div>
+    <div ng-switch-when="YOUTUBE">
+        <ng-include src="'views/widget/widget-youtube.view.client.html'">
+    </div>
 </div>
 
 <footer>
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container-fluid">
             <div class="navbar-header">
-
                 <div class="navbar-text pull-right">
-                    <a href="../views/user/profile.view.client.html">
+                    <a href="#/user/{{model.uid}}">
                         <span class="glyphicon glyphicon-user nav-glyphicon"></span>
                     </a>
                 </div>
@@ -92,6 +49,3 @@
         </div>
     </nav>
 </footer>
-
-</body>
-</html>

@@ -1,30 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="viewport" content="initial-scale=1.25, user-scalable=no">
-    <title>Edit Page</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
-</head>
-<body>
 <header>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <p class="navbar-text navbar-left pull-left">
-                    <a href="page-list.html"
+                    <a href="#/user/{{model.uid}}/website/{{model.wid}}/page"
                        class="navbar-link">
-                        <span class="glyphicon glyphicon-chevron-left pull-left"></span>
+                        <span class="glyphicon glyphicon-chevron-left pull-left nav-glyphicon"></span>
                     </a>
                 </p>
                 <a class="navbar-brand">
                     Edit Page
                 </a>
                 <p class="navbar-text navbar-right">
-                    <a href="page-list.html"
+                    <a ng-click="model.updatePage()"
                        class="navbar-link">
                         <span class="glyphicon glyphicon-ok pull-right nav-glyphicon"></span>
                     </a>
@@ -41,26 +29,24 @@
         <div class="form-group">
 
             <label for="pagename">Name</label>
-            <input name="pagename"
+            <input ng-model="model.page.name"
                    id="pagename"
                    type="text"
                    class="form-control"
-                   placeholder="Page Name"
-                   value="Gizmodo"/>
+                   placeholder="Page Name"/>
         </div>
 
         <div class="form-group">
             <label for="pagetitle">Title</label>
-            <input name="pagetitle"
+            <input ng-model="model.page.title"
                    id="pagetitle"
                    type="text"
                    class="form-control"
-                   placeholder="Page Title"
-                   value="This is my tech page where I will add everything related to latest technology"/>
+                   placeholder="Page Title"/>
         </div>
 
-        <a  class="btn btn-block btn-danger"
-            href="page-list.html">
+        <a  ng-click="model.deletePage()"
+            class="btn btn-block btn-danger">
             Delete
         </a>
     </form>
@@ -72,7 +58,7 @@
             <div class="navbar-header">
 
                 <div class="navbar-text pull-right">
-                    <a href="../views/user/profile.view.client.html">
+                    <a href="#/user/{{model.uid}}">
                         <span class="glyphicon glyphicon-user nav-glyphicon"></span>
                     </a>
                 </div>
@@ -80,6 +66,3 @@
         </div>
     </nav>
 </footer>
-
-</body>
-</html>

@@ -1,95 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="viewport" content="initial-scale=1.25, user-scalable = no">
-    <meta charset="UTF-8">
-    <title>Website-list</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="../css/style.css" rel="stylesheet"/>
-</head>
-<body>
-
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                Websites
-            </a>
-            <p class="navbar-text pull-right">
-                <a href=website-new.html class="navbar-link">
-                  <span class="glyphicon glyphicon-plus">
-                  </span>
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">
+                    Websites
                 </a>
-            </p>
+                <p class="navbar-text navbar-right">
+                    <a href="#/user/{{model.uid}}/website/new"
+                       class="navbar-link">
+                        <span class="glyphicon glyphicon-plus pull-right nav-glyphicon"></span>
+                    </a>
+                </p>
+
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</header>
 
-    <div class="container">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="../page/page-list.view.client.html">
-                    Gizmodo
-                </a>
-                <a class="pull-right">
-                <span class="glyphicon glyphicon-play pull-right"></span>
-                </a>
-                <a href="website-edit.view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href=../page/page-list.view.client.html>
-                    Blogger
-                </a>
-                <a class="pull-right">
-                    <span class="glyphicon glyphicon-play pull-right"></span>
-                </a>
-                <a href="website-edit.view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href=../page/page-list.view.client.html>
-                    Facebook
-                </a>
-                <a class="pull-right">
-                    <span class="glyphicon glyphicon-play pull-right"></span>
-                </a>
-                <a href="website-edit.view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a href=../page/page-list.view.client.html>
-                    Twitter
-                </a>
-                <a class="pull-right">
-                    <span class="glyphicon glyphicon-play pull-right"></span>
-                </a>
-                <a href="website-edit.view.client.html" class="pull-right">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </a>
-            </li>
-        </ul>
-    </div>
 
 <div class="container-fluid">
-    <footer>
-        <nav class="navbar navbar-default navbar-fixed-bottom">
 
+    <ul class="list-group">
+        <li ng-repeat="website in model.websites"
+            class="list-group-item">
+            <span class="glyphicon glyphicon-play pull-right"></span>
+
+            <a  href="#/user/{{website.developerId}}/website/{{website._id}}">
+                <span class="glyphicon glyphicon-cog pull-right"></span>
+            </a>
+            <a  href="#/user/{{website.developerId}}/website/{{website._id}}/page">
+                {{website.name}}
+            </a>
+        </li>
+    </ul>
+</div>
+
+<footer>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid">
             <div class="navbar-header">
+
                 <div class="navbar-text pull-right">
-                    <a href="../user/profile.view.client.html">
+                    <a href="#/user/{{model.uid}}">
                         <span class="glyphicon glyphicon-user nav-glyphicon"></span>
                     </a>
                 </div>
             </div>
-        </nav>
-    </footer>
-</div>
-
-</body>
-</html>
+        </div>
+    </nav>
+</footer>

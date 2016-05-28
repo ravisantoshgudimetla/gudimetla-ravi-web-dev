@@ -1,62 +1,65 @@
 (function() {
     angular
         .module("WebAppMaker")
-        .factory("PageService", PageService);
+        .factory("WebsiteService", WebsiteService);
 
-    var pages = [
-        { "_id": "321", "name": "Post 1", "websiteId": "456" },
-        { "_id": "432", "name": "Post 2", "websiteId": "456" },
-        { "_id": "543", "name": "Post 3", "websiteId": "456" }
+    var websites = [
+        { "_id": "123", "name": "Facebook",    "developerId": "456" },
+        { "_id": "234", "name": "Tweeter",     "developerId": "456" },
+        { "_id": "456", "name": "Gizmodo",     "developerId": "456" },
+        { "_id": "567", "name": "Tic Tac Toe", "developerId": "123" },
+        { "_id": "678", "name": "Checkers",    "developerId": "123" },
+        { "_id": "789", "name": "Chess",       "developerId": "234" }
     ];
 
-    function PageService() {
+    function WebsiteService() {
 
         var api = {
-            createPage: createPage,
-            findPageByWebsiteId: findPageByWebsiteId,
-            findPageById: findPageById,
-            updatePage: updatePage,
-            deletePage: deletePage
+            createWebsite: createWebsite,
+            findWebsitesByUser: findWebsitesByUser,
+            findWebsiteById: findWebsiteById,
+            updateWebsite: updateWebsite,
+            deleteWebsite: deleteWebsite
         };
         return api;
 
-        function createPage(websiteId, page) {
-            page.websiteId = websiteId;
-            pages.push(page)
+        function createWebsite(userId, website) {
+            website.developerId = userId;
+            websites.push(website);
         }
 
-        function findPageByWebsiteId(websiteId) {
+        function findWebsitesByUser(userId) {
             var result = [];
-            for(var i in pages) {
-                if(pages[i].websiteId === websiteId) {
-                    result.push(pages[i]);
+            for(var i in websites) {
+                if(websites[i].developerId === userId) {
+                    result.push(websites[i]);
                 }
             }
             return result;
         }
 
-        function findPageById(pageId) {
-            for(var i in pages) {
-                if(pages[i]._id == pageId) {
-                    return pages[i];
+        function findWebsiteById(websiteId) {
+            for(var i in websites) {
+                if(websites[i]._id == websiteId) {
+                    return websites[i];
                 }
             }
             return null;
         }
 
-        function updatePage(pageId, page) {
-            for(var i in pages) {
-                if(pages[i]._id == pageId) {
-                    pages[i].name = page.name;
-                    pages[i].title = page.title;
+        function updateWebsite(websiteId, website) {
+            for(var i in websites) {
+                if(websites[i]._id == websiteId) {
+                    websites[i].name = website.name;
+                    websites[i].description = website.description;
                 }
             }
         }
 
-        function deletePage(pageId) {
-            for(var i in pages) {
-                if (pages[i]._id == pageId) {
-                    pages.splice(i, 1);
+        function deleteWebsite(websiteId) {
+            for(var i in websites) {
+                if (websites[i]._id == websiteId) {
+                    websites.splice(i, 1);
                 }
             }
         }

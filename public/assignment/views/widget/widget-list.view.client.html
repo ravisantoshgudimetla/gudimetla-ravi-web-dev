@@ -1,161 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="viewport" content="initial-scale=1.25, user-scalable=no">
-    <title>Widget-List</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
-</head>
-<body>
 <header>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <p class="navbar-text navbar-left pull-left">
-                    <a href="../page/page-list.view.client.html"
-                       class="navbar-link">
-                        <span class="glyphicon glyphicon-chevron-left pull-left"></span>
-                    </a>
-                </p>
                 <a class="navbar-brand">
-                    Widgets
+                    Websites
                 </a>
                 <p class="navbar-text navbar-right">
-                    <a href="widget-chooser.view.client.html"
+                    <a href="#/user/{{model.uid}}/website/new"
                        class="navbar-link">
-                        <span class="glyphicon glyphicon-plus pull-right nav-glyphicon"></span>
+                        <span class="glyphicon glyphicon-plus pull-right ajc-nav-glyphicon"></span>
                     </a>
                 </p>
 
             </div>
         </div>
     </nav>
-
 </header>
 
 
 <div class="container-fluid">
 
-    <div class="jga-widget">
+    <ul class="list-group">
+        <li ng-repeat="website in model.websites"
+            class="list-group-item">
+            <span class="glyphicon glyphicon-play pull-right"></span>
 
-        <div class="jga-widget-tool">
-            <a  href="widget-header.view.client.html">
-                <span class="glyphicon glyphicon-cog"></span>
+            <a  href="#/user/{{website.developerId}}/website/{{website._id}}">
+                <span class="glyphicon glyphicon-cog pull-right"></span>
             </a>
-            <span class="glyphicon glyphicon-align-justify"></span>
-        </div>
-
-        <h1>GIZMODO</h1>
-    </div>
-
-    <div class="jga-widget">
-        <div class="jga-widget-tool">
-            <a  href="widget-header.view.client.html">
-                <span class="glyphicon glyphicon-cog"></span>
+            <a  href="#/user/{{website.developerId}}/website/{{website._id}}/page">
+                {{website.name}}
             </a>
-            <span class="glyphicon glyphicon-align-justify"></span>
-        </div>
-
-        <h4>Two Problems With the New York Times Facebook Live Pitch Meeting</h4>
-    </div>
-
-    <div class="jga-widget">
-        <div class="jga-widget-tool">
-            <a  href="widget-image.view.client.html">
-                <span class="glyphicon glyphicon-cog"></span>
-            </a>
-            <span class="glyphicon glyphicon-align-justify"></span>
-        </div>
-
-        <img class="img-responsive" width="100%"
-             src="http://blogs-images.forbes.com/sap/files/2016/04/Tesla-Motors-Model-3-Mainstream-04-08-2016-C-1200x800.jpg"/>
-
-    </div>
-
-    <div class="jga-widget">
-        <div class="jga-widget-tool">
-            <a  href="#">
-                <span class="glyphicon glyphicon-cog"></span>
-            </a>
-            <span class="glyphicon glyphicon-align-justify"></span>
-        </div>
-
-        <p class="first-text"> This afternoon, in a scene plucked from one of my work-related anxiety dreams, <em>New York Times</em> reporters Nick Corasaniti, Maggie Haberman, and Thomas Kaplan <a href="https://www.facebook.com/nytimes/videos/10150812214919999/" rel="noopener" target="_blank">pitched stories to politics editor Carolyn Ryan on Facebook Live</a> while thousands of people watched it happen.</p>
-    </div>
-
-
-
-    <div class="jga-widget">
-        <div class="jga-widget-tool">
-            <a  href="widget-header.view.client.html">
-                <span class="glyphicon glyphicon-cog"></span>
-            </a>
-            <span class="glyphicon glyphicon-align-justify"></span>
-        </div>
-
-        <h4>Tesla Insane Mode suprises customers</h4>
-    </div>
-
-    <div class="jga-widget">
-        <div class="jga-widget-tool">
-            <a  href="widget-youtube.html">
-                <span class="glyphicon glyphicon-cog"></span>
-            </a>
-            <span class="glyphicon glyphicon-align-justify"></span>
-        </div>
-        <div class="embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item"
-                    width="100%"
-                    src="https://www.youtube.com/embed/LpaLgF1uLB8"
-                    frameborder="0"
-                    allowfullscreen></iframe>
-        </div>
-
-    </div>
-
-    <div class="jga-widget">
-        <div class="jga-widget-tool">
-            <a  href="#">
-                <span class="glyphicon glyphicon-cog"></span>
-            </a>
-            <span class="glyphicon glyphicon-align-justify"></span>
-        </div>
-
-        <p class="first-text"> Tesla S has two modes insane and ludicrous <em>tech time</em> <a href="http://www.techtimes.com/articles/88763/20150928/telsa-model-s-in-insane-mode-vs-telsa-model-s-in-ludicrous-mode-which-is-faster-video.htm" rel="noopener" target="_blank">Tech times did a comparison</a> for both the modes</p>
-    </div>
-
-
+        </li>
+    </ul>
 </div>
-
-
-
 
 <footer>
     <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container">
-            <div class="row navbar-text">
-                <div class="col-xs-2  text-center">
-                    <a href="" class="navbar-link">
-                        <span class="glyphicon glyphicon-play"></span>
-                    </a>
-                </div>
-                <div class=" col-xs-2 text-center">
-                    <a href="" class="navbar-link">
-                        <span class="glyphicon glyphicon-eye-open"></span>
-                    </a>
-                </div>
-                <div class="col-xs-2 text-center pull-right">
-                    <a href="../views/user/profile.view.client.html">
-                        <span class="glyphicon glyphicon-user"></span>
+        <div class="container-fluid">
+            <div class="navbar-header">
+
+                <div class="navbar-text pull-right">
+                    <a href="#/user/{{model.uid}}">
+                        <span class="glyphicon glyphicon-user ajc-nav-glyphicon"></span>
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 </footer>
-
-</body>
-</html>
