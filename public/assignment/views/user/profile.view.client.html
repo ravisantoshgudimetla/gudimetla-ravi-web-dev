@@ -1,0 +1,32 @@
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">
+                    Profile
+                </a>
+                <p class="navbar-text navbar-right">
+                    <a ng-click="model.updateUser()"
+                       class="navbar-link">
+                        <span class="glyphicon glyphicon-ok pull-right nav-glyphicon"></span>
+                    </a>
+                </p>
+
+            </div>
+        </div>
+    </nav>
+
+</header>
+
+<div class="container-fluid">
+
+
+    <div ng-show="model.success"
+         class="alert alert-success">
+        {{model.success}}
+    </div>
+
+    <div ng-show="model.error"
+         class="alert alert-danger">
+        {{model.error}}
+    </div>

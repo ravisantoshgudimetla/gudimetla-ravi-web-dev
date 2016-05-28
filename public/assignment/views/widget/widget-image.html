@@ -5,7 +5,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="viewport" content="initial-scale=1.25, user-scalable=no">
-    <title>New Page</title>
+    <title>Widget Edit - Image</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
@@ -15,16 +15,16 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <p class="navbar-text navbar-left pull-left">
-                    <a href="page-list.html"
+                    <a href="widget-list.html"
                        class="navbar-link">
                         <span class="glyphicon glyphicon-chevron-left pull-left"></span>
                     </a>
                 </p>
                 <a class="navbar-brand">
-                    New Page
+                    Widget Edit
                 </a>
                 <p class="navbar-text navbar-right">
-                    <a href="page-list.html"
+                    <a href="widget-list.html"
                        class="navbar-link">
                         <span class="glyphicon glyphicon-ok pull-right nav-glyphicon"></span>
                     </a>
@@ -40,22 +40,63 @@
     <form>
         <div class="form-group">
 
-            <label for="pagename">Name</label>
-            <input name="pagename"
-                   id="pagename"
+            <label for="widget-name">Name</label>
+            <input name="widget-name"
+                   id="widget-name"
                    type="text"
                    class="form-control"
-                   placeholder="Page Name"/>
+                   placeholder="My Widget Name"
+                   value="Space Image"/>
         </div>
 
         <div class="form-group">
-            <label for="pagetitle">Title</label>
-            <input name="pagetitle"
-                   id="pagetitle"
+            <label for="widget-text">Text</label>
+            <input name="widget-text"
+                   id="widget-text"
                    type="text"
                    class="form-control"
-                   placeholder="Page Title"/>
+                   placeholder="My Widget Text"
+                   value="An image"/>
         </div>
+
+        <div class="form-group">
+            <label for="widget-url">URL</label>
+            <input name="widget-url"
+                   id="widget-url"
+                   type="text"
+                   class="form-control"
+                   placeholder="www.exampleimage.com/image"
+                   value="http://sample.image.com"/>
+        </div>
+
+        <div class="form-group">
+            <label for="widget-width">Width</label>
+            <input name="widget-width"
+                   id="widget-width"
+                   type="text"
+                   class="form-control"
+                   placeholder="100%"
+                   value="100%"/>
+        </div>
+
+        <div class="form-group">
+            <label for="widget-file">Upload</label>
+            <input name="widget-file"
+                   id="widget-file"
+                   type="file"
+                   class="form-control"
+                   value="100%"/>
+        </div>
+
+        <a  class="btn btn-block btn-primary"
+            href="">
+            Upload Image
+        </a>
+
+        <a  class="btn btn-block btn-danger"
+            href="widget-list.html">
+            Delete
+        </a>
     </form>
 </div>
 
@@ -64,7 +105,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <div class="navbar-text pull-right">
-                    <a href="../user/profile.html">
+                    <a href="../views/user/profile.view.client.html">
                         <span class="glyphicon glyphicon-user nav-glyphicon"></span>
                     </a>
                 </div>

@@ -5,20 +5,26 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="viewport" content="initial-scale=1.25, user-scalable = no">
     <meta charset="UTF-8">
-    <title>Website-list</title>
+    <title>Page-List</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="../css/style.css" rel="stylesheet"/>
 </head>
 <body>
-
+<header>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
+            <p class="navbar-text pull-left">
+                <a href="../views/website/website-list.html" class="navbar-link">
+                  <span class="glyphicon glyphicon-chevron-left">
+                  </span>
+                </a>
+            </p>
             <a class="navbar-brand" href="#">
-                Websites
+                Pages
             </a>
             <p class="navbar-text pull-right">
-                <a href=website-new.html class="navbar-link">
+                <a href="page-new.html" class="navbar-link">
                   <span class="glyphicon glyphicon-plus">
                   </span>
                 </a>
@@ -26,70 +32,64 @@
         </div>
     </div>
 </nav>
+</header>
 
     <div class="container">
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="../page/page-list.html">
+                <a href="../views/widget/widget-list.html">
                     Gizmodo
                 </a>
-                <a class="pull-right">
-                <span class="glyphicon glyphicon-play pull-right"></span>
-                </a>
-                <a href="website-edit.html" class="pull-right">
+                <a href=page-edit.html class="pull-right">
                     <span class="glyphicon glyphicon-cog"></span>
                 </a>
             </li>
             <li class="list-group-item">
-                <a href=../page/page-list.html>
-                    Blogger
+                <a href="../views/widget/widget-list.html">
+                    Home
                 </a>
-                <a class="pull-right">
-                    <span class="glyphicon glyphicon-play pull-right"></span>
-                </a>
-                <a href="website-edit.html" class="pull-right">
+                <a href="page-edit.html" class="pull-right">
                     <span class="glyphicon glyphicon-cog"></span>
                 </a>
             </li>
             <li class="list-group-item">
-                <a href=../page/page-list.html>
-                    Facebook
+                <a href="../views/widget/widget-list.html">
+                    About
                 </a>
-                <a class="pull-right">
-                    <span class="glyphicon glyphicon-play pull-right"></span>
-                </a>
-                <a href="website-edit.html" class="pull-right">
+                <a href="page-edit.html" class="pull-right">
                     <span class="glyphicon glyphicon-cog"></span>
                 </a>
             </li>
             <li class="list-group-item">
-                <a href=../page/page-list.html>
-                    Twitter
+                <a href="../views/widget/widget-list.html">
+                    Product List
                 </a>
-                <a class="pull-right">
-                    <span class="glyphicon glyphicon-play pull-right"></span>
+                <a href="page-edit.html" class="pull-right">
+                    <span class="glyphicon glyphicon-cog"></span>
                 </a>
-                <a href="website-edit.html" class="pull-right">
+            </li>
+            <li class="list-group-item">
+                <a href="../views/widget/widget-list.html">
+                    Contact Us
+                </a>
+                <a href="page-edit.html" class="pull-right">
                     <span class="glyphicon glyphicon-cog"></span>
                 </a>
             </li>
         </ul>
     </div>
 
-<div class="container-fluid">
-    <footer>
-        <nav class="navbar navbar-default navbar-fixed-bottom">
-
-            <div class="navbar-header">
-                <div class="navbar-text pull-right">
-                    <a href="../user/profile.html">
-                        <span class="glyphicon glyphicon-user nav-glyphicon"></span>
-                    </a>
-                </div>
+<footer>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <div class="row navbar-text">
+                <a href="../views/user/profile.view.client.html" class="pull-right">
+                    <span class="glyphicon glyphicon-user nav-glyphicon"></span>
+                </a>
             </div>
-        </nav>
-    </footer>
-</div>
+        </div>
+    </div>
+</nav>
 
 </body>
 </html>
