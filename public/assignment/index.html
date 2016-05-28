@@ -1,29 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" ng-app = "WebAppMaker">
+<html lang="en" ng-app="WebAppMaker">
 <head>
     <meta charset="UTF-8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="viewport" content="initial-scale=1.25, user-scalable = no">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="css/style.css" rel="stylesheet"/>
-    <title>Web App Maker</title>
+    <meta name="viewport" content="initial-scale=1.25, user-scalable=no">
+    <title>Assignment Home Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
     <script src="app.js"></script>
     <script src="config.js"></script>
+
     <script src="views/user/login.contoller.client.js"></script>
     <script src="views/user/profile.contoller.client.js"></script>
     <script src="views/user/register.contoller.client.js"></script>
-    <script src="views/website/website-edit.controller.client.js"></script>
+
     <script src="views/website/website-list.controller.client.js"></script>
+    <script src="views/website/website-edit.controller.client.js"></script>
     <script src="views/website/website-new.contoller.client.js"></script>
-    <script src="views/page/page-edit.controller.client.js"></script>
+
     <script src="views/page/page-list.contoller.client.js"></script>
+    <script src="views/page/page-edit.controller.client.js"></script>
     <script src="views/page/page-new.controller.client.js"></script>
+
+    <script src="views/widget/widget-list.controller.client.js"></script>
     <script src="views/widget/widget-chooser.controller.client.js"></script>
     <script src="views/widget/widget-edit.controller.client.js"></script>
-    <script src="views/widget/widget-list.controller.client.js"></script>
+
     <script src="services/user.service.client.js"></script>
     <script src="services/website.service.client.js"></script>
     <script src="services/page.service.client.js"></script>
@@ -32,8 +37,9 @@
 
 
 
+
 </head>
 <body>
-    <div ng-view></div>
+<div ng-view></div>
 </body>
 </html>
