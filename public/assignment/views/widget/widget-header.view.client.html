@@ -1,51 +1,41 @@
-<header>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <p class="navbar-text navbar-left pull-left">
-                    <a href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget"
-                       class="navbar-link">
-                        <span class="glyphicon glyphicon-chevron-left pull-left nav-glyphicon"></span>
-                    </a>
-                </p>
-                <a class="navbar-brand">
-                    Widget Edit
-                </a>
-                <p class="navbar-text navbar-right">
-                    <a ng-click="model.updateWidget()"
-                       class="navbar-link">
-                        <span class="glyphicon glyphicon-ok pull-right nav-glyphicon"></span>
-                    </a>
-                </p>
+<div class="container-fluid">
+    <form>
+        <div class="form-group">
 
-            </div>
+            <label for="widget-name">Name</label>
+            <input ng-model="model.widget.name"
+                   id="widget-name"
+                   type="text"
+                   class="form-control"
+                   placeholder="My Header"/>
         </div>
-    </nav>
 
-</header>
+        <div class="form-group">
+            <label for="widget-text">Text</label>
+            <input ng-model="model.widget.text"
+                   id="widget-text"
+                   type="text"
+                   class="form-control"
+                   placeholder="This Is My Header"/>
+        </div>
 
-<div ng-switch="model.widget.widgetType">
-    <div ng-switch-when="HEADER">
-        <ng-include src="'views/widget/widget-header.view.client.html'">
-    </div>
-    <div ng-switch-when="IMAGE">
-        <ng-include src="'views/widget/widget-image.view.client.html'">
-    </div>
-    <div ng-switch-when="YOUTUBE">
-        <ng-include src="'views/widget/widget-youtube.view.client.html'">
-    </div>
+        <div class="form-group">
+            <label for="widget-size">Size</label>
+            <select ng-model="model.widget.size"
+                    class="form-control"
+                    id="widget-size">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+        </div>
+
+        <a  ng-click="model.deleteWidget()"
+            class="btn btn-block btn-danger">
+            Delete
+        </a>
+    </form>
 </div>
-
-<footer>
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <div class="navbar-text pull-right">
-                    <a href="#/user/{{model.uid}}">
-                        <span class="glyphicon glyphicon-user nav-glyphicon"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
-</footer>

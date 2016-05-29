@@ -1,36 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="viewport" content="initial-scale=1.25, user-scalable=no">
-    <title>New Website</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
-</head>
-<body>
-
 <header>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <p class="navbar-text navbar-left pull-left">
-                    <a href="website-list.view.client.html"
+                    <a href="#/user/{{model.uid}}/website"
                        class="navbar-link">
-                        <span class="glyphicon glyphicon-chevron-left pull-left"></span>
+                        <span class="glyphicon glyphicon-chevron-left pull-left nav-glyphicon"></span>
                     </a>
                 </p>
                 <a class="navbar-brand">
                     New Website
                 </a>
                 <p class="navbar-text navbar-right">
-                    <a href="website-list.view.client.html"
+                    <a ng-click="model.createWebsite(name, description)"
                        class="navbar-link">
                         <span class="glyphicon glyphicon-ok pull-right nav-glyphicon"></span>
                     </a>
                 </p>
-
             </div>
         </div>
     </nav>
@@ -40,7 +26,7 @@
     <form>
         <div class="form-group">
             <label for="name">Website Name</label>
-            <input name="name"
+            <input ng-model="name"
                    id="name"
                    type="text"
                    class="form-control"
@@ -49,11 +35,11 @@
 
         <div class="form-group">
             <label for="description">Website Description</label>
-                <textarea rows="3"
-                          name="description"
-                          id="description"
-                          class="form-control"
-                          placeholder="Description"></textarea>
+            <textarea rows="3"
+                      ng-model="description"
+                      id="description"
+                      class="form-control"
+                      placeholder="Description"></textarea>
         </div>
     </form>
 </div>
@@ -64,7 +50,7 @@
             <div class="navbar-header">
 
                 <div class="navbar-text pull-right">
-                    <a href="../user/profile.view.client.html">
+                    <a href="#/user/{{model.uid}}">
                         <span class="glyphicon glyphicon-user nav-glyphicon"></span>
                     </a>
                 </div>
@@ -72,7 +58,3 @@
         </div>
     </nav>
 </footer>
-
-
-</body>
-</html>

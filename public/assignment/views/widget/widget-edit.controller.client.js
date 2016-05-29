@@ -2,7 +2,7 @@
     angular
         .module("WebAppMaker")
         .controller("WidgetEditController", WidgetEditController);
-
+    
     function WidgetEditController($location, $routeParams, WidgetService) {
         var vm = this;
         vm.updateWidget = updateWidget;

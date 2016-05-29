@@ -2,7 +2,7 @@
     angular
         .module("WebAppMaker")
         .controller("NewWidgetController", NewWidgetController);
-
+    
     function NewWidgetController($location, $routeParams, WidgetService) {
         var vm = this;
 

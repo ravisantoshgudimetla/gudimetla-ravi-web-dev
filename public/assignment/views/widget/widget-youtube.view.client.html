@@ -1,105 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="viewport" content="initial-scale=1.25, user-scalable=no">
-    <title>Widget Edit - YouTube</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
-</head>
-<body>
-<header>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <p class="navbar-text navbar-left pull-left">
-                    <a href="widget-list.view.client.html"
-                       class="navbar-link">
-                        <span class="glyphicon glyphicon-chevron-left pull-left"></span>
-                    </a>
-                </p>
-                <a class="navbar-brand">
-                    Widget Edit
-                </a>
-                <p class="navbar-text navbar-right">
-                    <a href="widget-list.view.client.html"
-                       class="navbar-link">
-                        <span class="glyphicon glyphicon-ok pull-right nav-glyphicon"></span>
-                    </a>
-                </p>
-
-            </div>
-        </div>
-    </nav>
-
-</header>
-
 <div class="container-fluid">
     <form>
         <div class="form-group">
 
             <label for="widget-name">Name</label>
-            <input name="widget-name"
+            <input ng-model="model.widget.name"
                    id="widget-name"
                    type="text"
                    class="form-control"
-                   placeholder="My Youtube Video Name"
-                   value="Tesla insane mode"/>
+                   placeholder="My Youtube Video Name"/>
         </div>
 
         <div class="form-group">
             <label for="widget-text">Text</label>
-            <input name="widget-text"
+            <input ng-model="model.widget.text"
                    id="widget-text"
                    type="text"
                    class="form-control"
-                   placeholder="My Youtube Video Text"
-                   value="Tesla 60mph in 3 seconds"/>
+                   placeholder="My Youtube Video Text"/>
         </div>
 
         <div class="form-group">
             <label for="widget-url">URL</label>
-            <input name="widget-url"
+            <input ng-model="model.widget.url"
                    id="widget-url"
                    type="text"
                    class="form-control"
-                   placeholder="https://youtu.be/xxxxxxxxxx"
-                   value="https://youtu.be/xQl9OjPFDdc"/>
+                   placeholder="https://youtu.be/xxxxxxxxxx"/>
         </div>
 
         <div class="form-group">
             <label for="widget-width">Width</label>
-            <input name="widget-width"
+            <input ng-model="model.widget.width"
                    id="widget-width"
                    type="text"
                    class="form-control"
-                   placeholder="100%"
-                   value="100%"/>
+                   placeholder="100%"/>
         </div>
 
-        <a  class="btn btn-block btn-danger"
-            href="widget-list.view.client.html">
+        <a  ng-click="model.deleteWidget()"
+            class="btn btn-block btn-danger">
             Delete
         </a>
     </form>
 </div>
-
-<footer>
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container-fluid">
-            <div class="navbar-header">
-
-                <div class="navbar-text pull-right">
-                    <a href="../views/user/profile.view.client.html">
-                        <span class="glyphicon glyphicon-user nav-glyphicon"></span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
-</footer>
-
-</body>
-</html>
