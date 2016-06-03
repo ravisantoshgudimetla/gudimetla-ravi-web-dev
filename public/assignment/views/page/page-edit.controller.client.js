@@ -13,20 +13,45 @@
         vm.pid = $routeParams.pid;
 
         function init() {
-            vm.page = angular.copy(PageService.findPageById(vm.pid));
+            //vm.page = angular.copy(PageService.findPageById(vm.pid));
+            PageService
+                .findPageById(vm.pid)
+                .then(
+                    function(response){
+                        vm.page = response.data;
+                    },
+                    function(error){
+                        vm.error = error.data;
+                    });
         }
         init();
 
         function updatePage() {
-            PageService.updatePage(vm.pid, vm.page);
-            $location.url("/user/"+ vm.uid + "/website/" + vm.wid + "/page");
+            PageService
+                .updatePage(vm.pid, vm.page)
+                .then(
+                    function(response){
+                        vm.success = "Page successfully updated";
+                        $location.url("/user/"+ vm.uid + "/website/" + vm.wid + "/page");
+                    },
+                    function(error){
+                        vm.error = error.data;
+                    });
         }
 
         function deletePage() {
-            PageService.deletePage(vm.pid);
-            $location.url("/user/"+ vm.uid + "/website/" + vm.wid + "/page");
+            PageService
+                .deletePage(vm.pid)
+                .then(
+                    function(response){
+                        vm.success = "Page deleted successfully";
+                        $location.url("/user/"+ vm.uid + "/website/" + vm.wid + "/page");
+                    },
+                    function(error){
+                        vm.error = error.data
+                    }
+                );
+            }
         }
-
-    }
 })();
 
