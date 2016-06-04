@@ -12,18 +12,44 @@
         vm.wid = $routeParams.wid;
 
         function init() {
-            vm.website = angular.copy(WebsiteService.findWebsiteById(vm.wid));
+            WebsiteService
+                .findWebsiteById(vm.wid)
+                .then(
+                    function(response) {
+                        vm.website = response.data;
+                    },
+                    function(error) {
+                        vm.error = error.data;
+                    });
         }
         init();
 
         function updateWebsite() {
-            WebsiteService.updateWebsite(vm.wid, vm.website);
-            $location.url("/user/"+ vm.uid + "/website");
+            WebsiteService
+                .updateWebsite(vm.wid, vm.website)
+                .then(
+                    function(res) {
+                        vm.success = "Website successfully updated";
+                        $location.url("/user/"+ vm.uid + "/website");
+                    },
+                    function(error) {
+                        vm.error = error.data;
+                    }
+                )
         }
 
         function deleteWebsite() {
-            WebsiteService.deleteWebsite(vm.wid);
-            $location.url("/user/"+ vm.uid + "/website");
+            WebsiteService
+                .deleteWebsite(vm.wid)
+                .then(
+                    function(res) {
+                        vm.success = "Website successfully deleted";
+                        $location.url("/user/"+ vm.uid + "/website");
+                    },
+                    function(error) {
+                        vm.error = error.data;
+                    }
+                )
         }
     }
 })();

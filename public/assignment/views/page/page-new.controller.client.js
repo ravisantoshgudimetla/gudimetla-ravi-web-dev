@@ -7,7 +7,6 @@
     function NewPageController($location, $routeParams, PageService) {
         var vm = this;
         vm.createPage = createPage;
-
         vm.uid = $routeParams["uid"];
         vm.wid = $routeParams["wid"];
 
@@ -20,9 +19,18 @@
                 websiteId: vm.wid,
                 title: title
             };
-            PageService.createPage(vm.wid, newPage);
-            $location.url("/user/" + vm.uid + "/website/" + vm.wid + "/page");
-        }
+            PageService
+                .createPage(vm.wid, newPage)
+                .then(
+                    function(response){
+                        vm.success = "Created new Page";
+                        $location.url("/user/" + vm.uid + "/website/" + vm.wid + "/page");
+                    },
+                    function(error){
+                        vm.error = error.data
+                    }
 
-    }
+                );
+            }
+        }
 })();

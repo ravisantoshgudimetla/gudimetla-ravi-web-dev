@@ -13,8 +13,17 @@
         vm.pid = $routeParams.pid;
         
         function init() {
-            vm.widgets = WidgetService.findWidgetsByPageId(vm.pid);
-        }
+            WidgetService
+                .findWidgetsByPageId(vm.pid)
+                .then(
+                    function(response){
+                        vm.widgets = response.data;
+                    },
+                    function(error){
+                        vm.error = error.data;
+                    }
+                );
+            }
         init();
 
         function getTrustedHTML(widget) {
@@ -27,5 +36,10 @@
             var url = "https://www.youtube.com/embed/" + id;
             return $sce.trustAsResourceUrl(url);
         }
+        $(".container-fluid")
+            .sortable({
+                axis: 'y'
+            })
     }
+
 })();
