@@ -1,0 +1,55 @@
+<div class="container-fluid">
+
+    <div ng-if="model.error"
+         class="alert alert-danger"
+         role="alert">
+        {{model.error}}
+    </div>
+
+    <header>
+        <h2>
+            Register
+        </h2>
+    </header>
+
+    <form>
+        <div class="form-group">
+            <input ng-model="username"
+                   type="text"
+                   class="form-control"
+                   placeholder="username"/>
+        </div>
+
+        <div class="form-group">
+            <input ng-model="password"
+                   type="password"
+                   class="form-control"
+                   placeholder="password"/>
+        </div>
+
+        <div class="form-group">
+            <input ng-model="verifypassword"
+                   type="password"
+                   class="form-control"
+                   placeholder="verify password"/>
+        </div>
+
+        <div class="form-group">
+            <input ng-model="imageurl"
+                   id="imageurl"
+                   type="text"
+                   class="form-control"
+                   placeholder="www.exampleimage.com/image"/>
+        </div>
+
+        <a  class="btn btn-block btn-primary"
+            ng-click="model.register(username, password, verifypassword,imageurl)">
+            Register
+        </a>
+
+        <a  class="btn btn-block btn-danger"
+            href="#/login">
+            Cancel
+        </a>
+    </form>
+</div>

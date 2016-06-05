@@ -1,0 +1,94 @@
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand">
+                    Profile
+                </a>
+                <p class="navbar-text navbar-right">
+                    <a ng-click="model.updateUser()"
+                       class="navbar-link">
+                        <span class="glyphicon glyphicon-ok pull-right nav-glyphicon"></span>
+                    </a>
+                </p>
+
+            </div>
+        </div>
+    </nav>
+
+</header>
+
+
+<div class="container-fluid">
+
+
+    <div ng-show="model.success"
+         class="alert alert-success">
+        {{model.success}}
+    </div>
+
+    <div ng-show="model.error"
+         class="alert alert-danger">
+        {{model.error}}
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input ng-model="model.user.username"
+                   id="username"
+                   type="text"
+                   class="form-control"
+                   placeholder="Username"/>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input ng-model="model.user.email"
+                   id="email"
+                   type="email"
+                   class="form-control"
+                   placeholder="E-mail"/>
+        </div>
+        <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input ng-model="model.user.firstName"
+                   id="first-name"
+                   type="text"
+                   class="form-control"
+                   placeholder="first-name"/>
+        </div>
+        <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input ng-model="model.user.lastName"
+                   id="last-name"
+                   type="text"
+                   class="form-control"
+                   placeholder="last-name"/>
+        </div>
+        <a  class="btn btn-block btn-primary"
+            href="#/user/{{model.user._id}}/search_images">
+            Search
+        </a>
+        <a  class="btn btn-block btn-danger"
+            href="#/login">
+            Logout
+        </a>
+        <a  ng-click="model.unRegister()"
+            class="btn btn-block btn-danger">
+            Unregister
+        </a>
+    </form>
+</div>
+<footer>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div class="navbar-text pull-right">
+                    <a href="#/user/{{model.user._id}}">
+                        <span class="glyphicon glyphicon-user nav-glyphicon"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</footer>

@@ -1,7 +1,6 @@
-
 (function() {
     angular
-        .module("WebAppMaker")
+        .module("FotoTag")
         .controller("LoginController", LoginController);
 
     function LoginController($location, UserService) {

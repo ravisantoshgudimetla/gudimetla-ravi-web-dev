@@ -3,13 +3,13 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <p class="navbar-text navbar-left pull-left">
-                    <a href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget/{{model.wgid}}"
+                    <a href="#/user/{{model.uid}}"
                        class="navbar-link">
                         <span class="glyphicon glyphicon-chevron-left pull-left nav-glyphicon"></span>
                     </a>
                 </p>
                 <a class="navbar-brand">
-                    Search Flickr
+                    Search Images
                 </a>
             </div>
         </div>
@@ -17,7 +17,7 @@
 </header>
 
 <div class="container-fluid">
-    <div class="input-group search">
+    <div class="input-group ajc-search">
         <input ng-model="searchText"
                type="text"
                class="form-control"
@@ -33,7 +33,7 @@
 
 
     <div class="row container-fluid">
-        <div class="col-xs-4 flickr-image"
+        <div class="col-xs-4 ajc-flickr-image"
              ng-repeat="photo in model.photos.photo">
             <img ng-click="model.selectPhoto(photo)"
                  width="100%"
