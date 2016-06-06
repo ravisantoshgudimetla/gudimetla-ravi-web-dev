@@ -17,7 +17,7 @@
 </header>
 
 <div class="container-fluid">
-    <div class="input-group ajc-search">
+    <div class="input-group search">
         <input ng-model="searchText"
                type="text"
                class="form-control"
@@ -33,7 +33,7 @@
 
 
     <div class="row container-fluid">
-        <div class="col-xs-4 ajc-flickr-image"
+        <div class="col-xs-4 local-image"
              ng-repeat="photo in model.photos.photo">
             <img ng-click="model.selectPhoto(photo)"
                  width="100%"

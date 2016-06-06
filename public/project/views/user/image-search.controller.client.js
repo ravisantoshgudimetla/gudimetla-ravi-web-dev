@@ -3,7 +3,7 @@
         .module("FotoTage")
         .controller("ImageSearchController", ImageSearchController);
 
-    function FlickrImageSearchController($location, $routeParams) {
+    function ImageSearchController($location, $routeParams) {
         var vm = this;
         vm.searchPhotos = searchPhotos;
         vm.selectPhoto = selectPhoto;
