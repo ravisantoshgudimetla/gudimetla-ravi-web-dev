@@ -2,19 +2,26 @@ var request = require("request");
 module.exports = function(app) {
     
     var users = [
-        {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder"  },
-        {_id: "234", username: "bob",      password: "bob",      firstName: "Bob",    lastName: "Marley"  },
-        {_id: "345", username: "charly",   password: "charly",   firstName: "Charly", lastName: "Garcia"  },
-        {_id: "456", username: "jannunzi", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi" }
+        {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder",    role: "normal"},
+        {_id: "234", username: "bob",      password: "bob",      firstName: "Bob",    lastName: "Marley",    role: "normal"},
+        {_id: "345", username: "charly",   password: "charly",   firstName: "Charly", lastName: "Garcia",    role: "normal"},
+        {_id: "456", username: "jannunzi", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi",   role: "normal"},
+        {_id: "789", username: "ravi",     password: "ravi",     firstName: "ravi",   lastName: "gudimetla", role: "admin"}
     ];
     var api_base_url = 'https://api.projectoxford.ai/face/v1.0/persongroups/samplegroup';
     var subscription_key = '0a6cc165c1b5415e963541ce642be658';
 
-    app.get("/api/new_user/:userId", findUserById);
-    //app.get("/api/user", getUsers);
-    app.post("/api/new_user", createUser);
-    //app.put("/api/user/:userId", updateUser);
+    app.get("/project/api/user/:userId", findUserById);
+    app.get("/project/api/user", getUsers);
+    app.post("/project/api/user", createUser);
+    app.put("/project/api/user/:userId", updateUser);
     //app.delete("/api/user/:userId", deleteUser);
+    app.get("/project/api/admin/listusers, listUsers");
+    
+    
+    function listUsers(req, res){
+        res.send(users);
+    }
 
     function createUser(req, res) {
         var newUser = req.body;
