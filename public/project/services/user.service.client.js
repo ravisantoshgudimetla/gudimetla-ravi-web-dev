@@ -11,12 +11,13 @@
             findUserByUsername: findUserByUsername,
             findUserByCredentials: findUserByCredentials,
             updateUser: updateUser,
-            deleteUser: deleteUser
+            deleteUser: deleteUser,
+            listUsers: listUsers
         };
         return api;
 
         function createUser(username, password, imageurl) {
-            var url = "/api/new_user";
+            var url = "/project/api/user";
             var user = {
                 username: username,
                 password: password,
@@ -26,7 +27,7 @@
         }
 
         function findUserById(userId) {
-            var url = "/api/new_user/" + userId;
+            var url = "/project/api/user/" + userId;
             return $http.get(url);
         }
 
@@ -36,19 +37,25 @@
         }
 
         function findUserByCredentials(username, password) {
-            var url = "/api/user?username=" + username + "&password=" + password;
+            var url = "/project/api/user?username=" + username + "&password=" + password;
             return $http.get(url);
         }
 
         function updateUser(userId, user) {
-            var url = "/api/user/" + userId;
+            var url = "/project/api/user/" + userId;
             return $http.put(url, user);
         }
 
         function deleteUser(userId) {
-            var url="/api/user/" + userId;
+            var url="/project/api/user/" + userId;
             return $http.delete(url);
         }
+
+        function listUsers() {
+            var url="/project/api/user";
+            return $http.get(url);
+        }
     }
+
 
 })();

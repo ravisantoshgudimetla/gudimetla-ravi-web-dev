@@ -2,6 +2,7 @@
     angular
         .module("FotoTag")
         .controller("LoginController", LoginController);
+        
 
     function LoginController($location, UserService) {
         var vm = this;
@@ -12,18 +13,20 @@
             UserService
                 .findUserByCredentials(username, password)
                 .then(
-                    function(response) {
+                    function (response) {
                         var user = response.data;
-
-                        if(user) {
-                            var id = user._id;
-                            $location.url("/user/" + id);
+                        if (user.role == "admin") {
+                            $location.url("/project/api/user")
                         }
+                        else if (user) {
+                            var id = user._id;
+                            $location.url("/project/user/" + id);
+                        }
+
                     },
-                    function(error) {
+                    function (error) {
                         vm.error = "User not found";
                     });
         }
-    }
-
+}
 })();

@@ -21,7 +21,7 @@
                         .then(
                             function (res) {
                                 var user = res.data;
-                                $location.url("/new_user/" + user._id);
+                                $location.url("/project/user" + user._id);
                                 console.log(user)
                             },
                             function (error) {
