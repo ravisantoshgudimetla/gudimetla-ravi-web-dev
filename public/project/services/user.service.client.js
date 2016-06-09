@@ -12,7 +12,8 @@
             findUserByCredentials: findUserByCredentials,
             updateUser: updateUser,
             deleteUser: deleteUser,
-            listUsers: listUsers
+            listUsers: listUsers,
+            searchUserByImage:searchUserByImage
         };
         return api;
 
@@ -54,6 +55,12 @@
         function listUsers() {
             var url="/project/api/user";
             return $http.get(url);
+        }
+        
+        function searchUserByImage(imageurl){
+            url = "/project/user/get_images?imageurl=" + imageurl ;
+            //console.log(url);
+            return $http.get(url)
         }
     }
 

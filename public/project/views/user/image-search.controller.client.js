@@ -3,7 +3,7 @@
         .module("FotoTag")
         .controller("ImageSearchController", ImageSearchController);
 
-    function ImageSearchController($location, $routeParams,$http) {
+    function ImageSearchController($location, $routeParams,UserService) {
         var vm = this;
         vm.searchPhotos = searchPhotos;
         //vm.selectPhoto = selectPhoto;
@@ -11,12 +11,16 @@
         
 
         function searchPhotos(imageurl) {
-            url = "/project/user/get_images?imageurl=" + imageurl ;
-            console.log(url);
-            vm.users = $http.get(url)
-
+           UserService
+               .searchUserByImage(imageurl)
+                .then(
+                    function(response){
+                        vm.user = response.data;
+                    },
+                    function(error){
+                        vm.users = "User not found"
+                    }
+                )
         }
-
-        
     }
 })();

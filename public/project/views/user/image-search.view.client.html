@@ -32,11 +32,15 @@
     </div>
 
 
-    <div class="row container-fluid">
-        {model.user}
-</div>
+    <div class="container-fluid">
+                <a  href="#/project/user/{{model.user._id}}">
+                    {{model.user.username}}
+                </a>
 
-<footer>
+    </div>
+
+
+    <footer>
     <nav class="navbar navbar-default navbar-fixed-bottom">
         <div class="container-fluid">
             <div class="navbar-header">
