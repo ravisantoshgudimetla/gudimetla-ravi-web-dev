@@ -23,14 +23,29 @@
 </header>
 
 <div class="container-fluid">
-    <form>
-        <div class="form-group">
+
+    <div ng-if="model.error"
+         class="alert alert-danger"
+         role="alert">
+        {{model.error}}
+    </div>
+
+    <form name="form" role="form">
+
+        <div class="form-group"
+             ng-class="{ 'has-error': form.name.$error.required && model.submitted}">
             <label for="name">Website Name</label>
             <input ng-model="name"
+                   name="name"
                    id="name"
                    type="text"
                    class="form-control"
-                   placeholder="Name"/>
+                   placeholder="Name"
+                   required/>
+            <span ng-show="form.name.$error.required && model.submitted"
+                  class="help-block">
+                Website name is required
+            </span>
         </div>
 
         <div class="form-group">

@@ -9,9 +9,9 @@ module.exports = function(app, models) {
         {_id: "456", username: "jannunzi", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi" }
     ];
 
-    app.get("/api/user/:userId", findUserById);
-    app.get("/api/user", getUsers);
+    app.get("/api/user", getUsers); // handles : /api/user, /api/user?username=username, and /api/user?username=username&password=password
     app.post("/api/user", createUser);
+    app.get("/api/user/:userId", findUserById);
     app.put("/api/user/:userId", updateUser);
     app.delete("/api/user/:userId", deleteUser);
 

@@ -25,46 +25,73 @@
 
 <div class="container-fluid">
 
-    <div ng-repeat="widget in model.widgets"
-         ng-switch="widget.widgetType">
+    <wam-sortable sorted="model.sorted(start, end)"
+                  data="model.widgets">
 
-        <div  class="jga-widget-tool">
-            <a  href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget/{{widget._id}}" class="glyphicon glyphicon-cog">
-
-            </a>
-            <span class="glyphicon glyphicon-align-justify"></span>
-        </div>
-        <div ng-switch-when="HEADER"
-             class="widget">
-            <div ng-switch="widget.size">
-                <h1 ng-switch-when="1">{{widget.text}}</h1>
-                <h2 ng-switch-when="2">{{widget.text}}</h2>
-                <h3 ng-switch-when="3">{{widget.text}}</h3>
-                <h4 ng-switch-when="4">{{widget.text}}</h4>
-                <h5 ng-switch-when="5">{{widget.text}}</h5>
-                <h6 ng-switch-when="6">{{widget.text}}</h6>
-                <h1 ng-switch-default>{{widget.text}}</h1>
+        <div ng-repeat="widget in model.widgets | orderBy : 'order'"
+             ng-switch="widget.type">
+            <div class="jga-widget-tool">
+                <a  href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget/{{widget._id}}">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </a>
+                <span class="glyphicon glyphicon-align-justify widget-handle"></span>
             </div>
-        </div>
 
-        <div ng-switch-when="IMAGE">
-            <img ng-src="{{widget.url}}"
-                 width="{{widget.width}}"/>
-        </div>
+            <div ng-switch-when="HEADER"
+                 class="widget">
+                <div ng-switch="widget.size">
+                    <h1 ng-switch-when="1">{{widget.text}}</h1>
+                    <h2 ng-switch-when="2">{{widget.text}}</h2>
+                    <h3 ng-switch-when="3">{{widget.text}}</h3>
+                    <h4 ng-switch-when="4">{{widget.text}}</h4>
+                    <h5 ng-switch-when="5">{{widget.text}}</h5>
+                    <h6 ng-switch-when="6">{{widget.text}}</h6>
+                    <h1 ng-switch-default>{{widget.text}}</h1>
+                </div>
+            </div>
 
-        <div ng-switch-when="HTML"
-             ng-bind-html="model.getTrustedHTML(widget)">
+            <div ng-switch-when="IMAGE"
+                 class="widget">
+                <img ng-src="{{widget.url}}"
+                     width="{{widget.width}}"/>
+            </div>
+
+            <div ng-switch-when="HTML"
+                 ng-bind-html="model.getTrustedHTML(widget)"
+                 class="widget">
+            </div>
+
+            <div ng-switch-when="YOUTUBE"
+                 class="youtube-widget">
+                <iframe class="embed-responsive-item"
+                        width="{{widget.width}}"
+                        height="{{widget.height}}"
+                        ng-src="{{model.getTrustedURL(widget)}}"
+                        frameborder="0"
+                        allowfullscreen></iframe>
+            </div>
+
+            <div ng-switch-when="TEXT"
+                 class="widget">
+                <div ng-if="widget.formatted"
+                     text-angular
+                     ta-toolbar="[['h1','h2','h3'],['bold','italics','underline','strikeThrough'],
+                                ['ul','ol'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],
+                                ['indent','outdent'],['html']]">
+                </div>
+                <input ng-if="!widget.formatted && (!widget.rows || widget.rows===1)"
+                       ng-model="widget.text"
+                       placeholder="{{widget.placeholder}}"
+                       class="form-control"/>
+                <textarea ng-if="!widget.formatted && (widget.rows > 1)"
+                          rows="{{widget.rows}}"
+                          placeholder="{{widget.placeholder}}"
+                          class="form-control">{{widget.text}}</textarea>
+            </div>
+
+            <div ng-switch-default>{{widget.type}}</div>
         </div>
-        <div ng-switch-when="YOUTUBE">
-            <iframe class="embed-responsive-item"
-                    width="{{widget.width}}"
-                    height="{{widget.height}}"
-                    ng-src="{{model.getTrustedURL(widget)}}"
-                    frameborder="0"
-                    allowfullscreen></iframe>
-        </div>
-        <div ng-switch-default>{{widget}}</div>
-    </div>
+    </wam-sortable>
 </div>
 
 
@@ -73,12 +100,12 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <div class="navbar-text pull-left">
-                    <a href="" class="navbar-link">
+                    <a href="">
                         <span class="glyphicon glyphicon-play nav-glyphicon"></span>
                     </a>
                 </div>
                 <div class="navbar-text pull-left">
-                    <a href="" class="navbar-link">
+                    <a href="">
                         <span class="glyphicon glyphicon-eye-open nav-glyphicon"></span>
                     </a>
                 </div>

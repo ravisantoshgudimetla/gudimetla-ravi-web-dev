@@ -24,14 +24,28 @@
 </header>
 
 <div class="container-fluid">
-    <form>
-        <div class="form-group">
+
+    <div ng-if="model.error"
+         class="alert alert-danger"
+         role="alert">
+        {{model.error}}
+    </div>
+
+    <form name="form" role="form">
+        <div class="form-group"
+             ng-class="{ 'has-error': form.name.$error.required && model.submitted}">
             <label for="websiteName">Website Name</label>
             <input ng-model="model.website.name"
+                   name="name"
                    id="websiteName"
                    type="text"
                    class="form-control"
-                   placeholder="Lorem Ipsum"/>
+                   placeholder="Lorem Ipsum"
+                   required/>
+            <span ng-show="form.name.$error.required && model.submitted"
+                  class="help-block">
+                Website name is required
+            </span>
         </div>
 
         <div class="form-group">
@@ -56,7 +70,7 @@
             <div class="navbar-header">
 
                 <div class="navbar-text pull-left">
-                    <a href="" class="navbar-link">
+                    <a href="">
                         <span class="glyphicon glyphicon-share-alt nav-glyphicon"></span>
                     </a>
                 </div>

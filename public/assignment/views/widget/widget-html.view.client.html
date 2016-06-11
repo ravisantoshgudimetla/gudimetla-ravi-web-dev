@@ -1,0 +1,36 @@
+<div class="container-fluid">
+    <form name="form" role="form">
+        <div class="form-group"
+             ng-class="{ 'has-error': form.name.$error.required && model.submitted}">
+            <label for="widget-name">Name</label>
+            <input ng-model="model.widget.name"
+                   id="widget-name"
+                   name="name"
+                   type="text"
+                   class="form-control"
+                   placeholder="My Header"
+                   required/>
+            <span ng-show="form.name.$error.required && model.submitted"
+                  class="help-block">
+                Widget name is required
+            </span>
+        </div>
+
+        <div class="form-group">
+            <label for="widget-html">HTML</label>
+            <div ng-model="model.widget.text"
+                 id="widget-html"
+                 text-angular
+                 ta-toolbar="[['h1','h2','h3'],['bold','italics','underline','strikeThrough'],
+                            ['ul','ol'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],
+                            ['indent','outdent'],['html']]">
+            </div>
+        </div>
+
+    </form>
+
+    <a  ng-click="model.deleteWidget()"
+        class="btn btn-block btn-danger">
+        Delete
+    </a>
+</div>

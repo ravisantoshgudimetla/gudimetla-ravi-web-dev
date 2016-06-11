@@ -22,25 +22,39 @@
                    id="widget-text"
                    type="text"
                    class="form-control"
-                   placeholder="My Youtube Video Text"/>
+                   placeholder="This Is My Text"/>
         </div>
 
         <div class="form-group">
-            <label for="widget-url">URL</label>
-            <input ng-model="model.widget.url"
-                   id="widget-url"
-                   type="text"
+            <label for="widget-rows">Rows</label>
+            <input ng-model="model.widget.rows"
+                   id="widget-rows"
+                   type="number"
                    class="form-control"
-                   placeholder="https://youtu.be/xxxxxxxxxx"/>
+                   placeholder="1">
         </div>
 
         <div class="form-group">
-            <label for="widget-width">Width</label>
-            <input ng-model="model.widget.width"
-                   id="widget-width"
+            <label for="widget-placeholder">Placeholder</label>
+            <input ng-model="model.widget.placeholder"
+                   id="widget-placeholder"
                    type="text"
                    class="form-control"
-                   placeholder="100%"/>
+                   placeholder="My Placeholder">
+        </div>
+
+        <div class="form-group">
+
+            <div class="input-group">
+                <input type="text"
+                       class="form-control"
+                       value="Formatted"
+                       readonly>
+                <span class="input-group-addon">
+                    <input ng-model="model.widget.formatted"
+                           type="checkbox">
+                </span>
+            </div>
         </div>
 
         <a  ng-click="model.deleteWidget()"

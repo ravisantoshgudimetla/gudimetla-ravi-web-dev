@@ -1,9 +1,10 @@
 var express = require('express');
 var app = express();
-var request       = require('request');
+var request = require('request');
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+var mongoose = require('mongoose');
 
 // configure a public directory to host static content
 app.use(express.static(__dirname + '/public'));

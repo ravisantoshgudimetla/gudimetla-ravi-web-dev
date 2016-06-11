@@ -23,27 +23,26 @@
     <ul class="list-group">
         <li ng-repeat="website in model.websites"
             class="list-group-item">
-            <a  href="#/user/{{website.developerId}}/website/{{website._id}}/page">
-                {{website.name}}
-            </a>
-            <a class="pull-right"><span class="glyphicon glyphicon-play pull-right"></span></a>
-            <a  href="#/user/{{website.developerId}}/website/{{website._id}}">
+            <span class="glyphicon glyphicon-play pull-right"></span>
+
+            <a  href="#/user/{{model.uid}}/website/{{website._id}}">
                 <span class="glyphicon glyphicon-cog pull-right"></span>
             </a>
-
-
+            <a  href="#/user/{{model.uid}}/website/{{website._id}}/page">
+                {{website.name}}
+            </a>
         </li>
     </ul>
 </div>
 
-<div class="container-fluid">
-    <footer>
-        <nav class="navbar navbar-default navbar-fixed-bottom">
-
+<footer>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container-fluid">
             <div class="navbar-header">
+
                 <div class="navbar-text pull-right">
                     <a href="#/user/{{model.uid}}">
-                        <span  class="glyphicon glyphicon-user nav-glyphicon"></span>
+                        <span class="glyphicon glyphicon-user nav-glyphicon"></span>
                     </a>
                 </div>
             </div>

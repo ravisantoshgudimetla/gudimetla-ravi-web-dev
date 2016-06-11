@@ -12,21 +12,21 @@
         vm.wid = $routeParams.wid;
         vm.pid = $routeParams.pid;
 
-        function createWidget(widgetType) {
+        function createWidget(type) {
             var newWidget = {
-                widgetType: widgetType,
-                pageId: vm.pid
+                type: type,
+                _page: vm.pid
             };
             WidgetService
                 .createWidget(vm.pid, newWidget)
                 .then(
                     function(response) {
-                        $location.url("/user/" + vm.uid + "/website/" + vm.wid + "/page/" + vm.pid + "/widget/" + response.data);
+                        $location.url("/user/" + vm.uid + "/website/" + vm.wid + "/page/" + vm.pid + "/widget/" + response.data._id);
                     },
                     function(error) {
                         vm.error = error.data;
                     }
                 );
-            }
         }
+    }
 })();
