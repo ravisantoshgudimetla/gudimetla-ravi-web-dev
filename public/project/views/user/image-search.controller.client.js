@@ -7,7 +7,7 @@
         var vm = this;
         vm.searchPhotos = searchPhotos;
         //vm.selectPhoto = selectPhoto;
-        var uid = $routeParams["uid"];
+        vm.uid = $routeParams["uid"];
         
 
         function searchPhotos(imageurl) {

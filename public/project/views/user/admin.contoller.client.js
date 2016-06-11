@@ -8,7 +8,7 @@
         //vm.updateUser = updateUser;
         //vm.unRegister = unRegister;
 
-        //var uid = $routeParams["uid"];
+         vm.uid = $routeParams["uid"];
 
         function init() {
             UserService
@@ -16,6 +16,7 @@
                 .then(
                     function (response) {
                         vm.users = response.data;
+                        //vm.currentuid = uid
                         //$location.url("/project/api/user/");
                         //vm.test = "hello"
                     },
