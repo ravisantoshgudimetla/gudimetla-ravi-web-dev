@@ -1,4 +1,8 @@
-module.exports = function(app) {
+module.exports = function(app, models) {
+
+    var widgetModel = models.widgetModel;
+    var pageModel = models.pageModel;
+
     var widgets = [
         { "_id": "123", "widgetType": "HEADER", "pageId": "321", "size": 2, "text": "GIZMODO"},
         { "_id": "234", "widgetType": "HEADER", "pageId": "321", "size": 4, "text": "Lorem ipsum"},
@@ -19,7 +23,25 @@ module.exports = function(app) {
     app.get("/api/widget/:widgetId", findWidgetById);
     app.put("/api/widget/:widgetId", updateWidget);
     app.delete("/api/widget/:widgetId", deleteWidget);
+    app.put("/api/page/:pageId/widget", reorderWidget); // "/api/page/:pageId/widget?start=start&end=end"
 
+
+    function reorderWidget(req, res) {
+        var startIndex = req.query['start'];
+        var endIndex = req.query['end'];
+        var pageId = req.params.pageId;
+
+        widgetModel
+            .reorderWidget(startIndex, endIndex, pageId)
+            .then(
+                function(widget) {
+                    res.sendStatus(200);
+                },
+                function(error) {
+                    res.status(404).send("Unable to reorder widget on page " + pageId);
+                }
+            )
+    }
 
     function uploadImage(req, res) {
 
@@ -44,67 +66,138 @@ module.exports = function(app) {
         var size          = myFile.size;
         var mimetype      = myFile.mimetype;
 
-        for(var i in widgets) {
-            if (widgets[i]._id === widgetId) {
-                widgets[i].url = "/uploads/" + filename;
+        widgetModel
+            .findWidgetById(widgetId)
+            .then(
+                function(widget) {
+                    widget.url = "/uploads/" + filename;
+
+                    return widgetModel
+                        .updateWidget(widgetId, widget)
+                },
+                function(error) {
+                    res.status(404).send(error);
+                }
+            ).then(
+            function(widget) {
+                res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+            },
+            function(error) {
+                res.status(404).send("Unable to update widget with ID " + widgetId);
             }
-        }
-        res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+        )
     }
 
     function createWidget(req, res) {
         var newWidget = req.body;
-        newWidget._id = (new Date()).getTime() + "";
-        widgets.push(newWidget);
-        res.status(200).send(newWidget._id);
+        var pageId = req.params.pageId;
+
+        widgetModel
+            .findAllWidgetsForPage(pageId)
+            .then(
+                function(widgets) {
+                    newWidget.order = widgets.length;
+
+                    return widgetModel
+                        .createWidget(pageId, newWidget)
+                },
+                function(error) {
+                    res.status(400).send(error);
+                }
+            ).then(
+            function(widget) {
+                return pageModel
+                    .addWidgetIdToPage(widget._id, pageId)
+                    .then(
+                        function(response) {
+                            res.json(widget);
+                        },
+                        function(error) {
+                            res.status(400).send(error);
+                        }
+                    )
+            },
+            function(error) {
+                res.status(400).send(error);
+            }
+        );
     }
 
     function findAllWidgetsForPage(req, res) {
         var pageId = req.params.pageId;
 
-        var result = [];
-        for(var i in widgets) {
-            if(widgets[i].pageId === pageId) {
-                result.push(widgets[i]);
-            }
-        }
-        res.send(result);
+        widgetModel
+            .findAllWidgetsForPage(pageId)
+            .then(
+                function(widgets) {
+                    res.json(widgets);
+                },
+                function(error) {
+                    res.status(404).send(error);
+                }
+            );
     }
 
     function findWidgetById(req, res) {
         var widgetId = req.params.widgetId;
-        for(var i in widgets) {
-            if(widgets[i]._id === widgetId) {
-                res.json(widgets[i]);
-                return;
-            }
-        }
-        res.status(400).send("Widget with ID " + widgetId + " not found");
+
+        widgetModel
+            .findWidgetById(widgetId)
+            .then(
+                function(widget) {
+                    res.json(widget);
+                },
+                function(error) {
+                    res.status(404).send(error);
+                }
+            );
     }
 
     function updateWidget(req, res) {
         var widget = req.body;
         var widgetId = req.params.widgetId;
 
-        for(var i in widgets) {
-            if(widgets[i]._id === widgetId) {
-                widgets[i] = widget;
-                res.sendStatus(200);
-                return true;
-            }
-        }
-        res.status(400).send("Widget with ID " + widgetId + " not found");
+        widgetModel
+            .updateWidget(widgetId, widget)
+            .then(
+                function(widget) {
+                    res.sendStatus(200);
+                },
+                function(error) {
+                    res.status(404).send("Unable to update widget with ID " + widgetId);
+                }
+            );
     }
 
     function deleteWidget(req, res) {
         var widgetId = req.params.widgetId;
-        for(var i in widgets) {
-            if(widgets[i]._id === widgetId) {
-                widgets.splice(i, 1);
-                res.sendStatus(200);
-                return true;
+
+        widgetModel
+            .findWidgetById(widgetId)
+            .then(
+                function(widget) {
+                    var pageId = widget._page;
+                    return pageModel
+                        .removeWidgetIdFromPage(widgetId, pageId)
+                },
+                function(error) {
+                    res.status(404).send("Unable to find widget " + widgetId);
+                }
+            ).then(
+            function(status) {
+                return widgetModel
+                    .deleteWidget(widgetId)
+            },
+            function(error) {
+                res.status(404).send("Unable to remove widget ID " + widgetId + " from page " + pageId);
             }
-        }
-        res.status(404).send("Unable to remove widget with ID " + widgetId);
+        ).then(
+            function(status) {
+                res.sendStatus(200);
+            },
+            function(error) {
+                res.status(404).send("Unable to remove widget with ID " + widgetId);
+            }
+        );
     }
 };

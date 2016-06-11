@@ -1,4 +1,7 @@
-module.exports = function(app) {
+module.exports = function(app, models) {
+
+    var userModel = models.userModel;
+
     var users = [
         {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder"  },
         {_id: "234", username: "bob",      password: "bob",      firstName: "Bob",    lastName: "Marley"  },
@@ -14,45 +17,60 @@ module.exports = function(app) {
 
     function createUser(req, res) {
         var newUser = req.body;
-
-        for(var i in users) {
-            if(users[i].username === newUser.username) {
-                res.status(412).send("Username " + newUser.username + " is already in use");
-                return;
-            }
-        }
-
-        newUser._id = (new Date()).getTime() + "";
-        users.push(newUser);
-        res.json(newUser);
+        userModel
+            .findUserByUsername(newUser.username)
+            .then(
+                function(user) {
+                    if(!user) {
+                        userModel
+                            .createUser(newUser)
+                            .then(
+                                function(user) {
+                                    res.json(user);
+                                },
+                                function(error) {
+                                    res.status(400).send("Unable to create new user: " + newUser.username);
+                                }
+                            );
+                    }
+                    else {
+                        res.status(400).send("Username " + newUser.username + " is already in use");
+                    }
+                },
+                function(error) {
+                    res.status(400).send(error);
+                }
+            )
     }
 
 
     function deleteUser(req, res) {
-        var id = req.params.userId;
-        for(var i in users) {
-            if(users[i]._id === id) {
-                users.splice(i, 1);
-                res.sendStatus(200);
-                return true;
-            }
-        }
-        res.status(404).send("Unable to remove user with ID " + id);
+        var userId = req.params.userId;
+        userModel
+            .deleteUser(userId)
+            .then(
+                function(status) {
+                    res.sendStatus(200);
+                },
+                function(error) {
+                    res.status(404).send("Unable to remove user with ID " + userId);
+                }
+            );
     }
 
     function updateUser(req, res) {
-        var id = req.params.userId;
+        var userId = req.params.userId;
         var newUser = req.body;
-        for(var i in users) {
-            if(users[i]._id == id) {
-                users[i].firstName = newUser.firstName;
-                users[i].lastName = newUser.lastName;
-                users[i].email = newUser.email;
-                res.sendStatus(200);
-                return true;
-            }
-        }
-        res.status(412).send("User with ID " + id + " not found");
+        userModel
+            .updateUser(userId, newUser)
+            .then(
+                function(user) {
+                    res.sendStatus(200);
+                },
+                function(error) {
+                    res.status(404).send("Unable to update user with ID " + userId);
+                }
+            );
     }
 
     function getUsers(req, res) {
@@ -70,33 +88,46 @@ module.exports = function(app) {
     }
 
     function findUserByCredentials(username, password, res) {
-        for(var u in users) {
-            if(users[u].username === username && users[u].password === password) {
-                res.send(users[u]);
-                return;
-            }
-        }
-        res.sendStatus(403);
+        userModel
+            .findUserByCredentials(username, password)
+            .then(
+                function(user) {
+                    if(user) {
+                        res.json(user);
+                    }
+                    else {
+                        res.status(403).send("Username and Password Not Found");
+                    }
+                },
+                function(error) {
+                    res.status(403).send("Unable to login");
+                }
+            );
     }
 
     function findUserByUsername(username, res) {
-        for(var u in users) {
-            if(users[u].username === username) {
-                res.send(users[u]);
-                return;
-            }
-        }
-        res.status(412).send("User with username " + username + " not found");
+        userModel
+            .findUserByUsername(username)
+            .then(
+                function(user) {
+                    res.json(user);
+                },
+                function(error) {
+                    res.status(400).send("User with username " + username + " not found");
+                }
+            );
     }
 
     function findUserById(req, res) {
         var userId = req.params.userId;
-        for(var i in users) {
-            if(users[i]._id === userId) {
-                res.send(users[i]);
-                return;
-            }
-        }
-        res.status(412).send("User with ID " + userId + " not found");
+        userModel.findUserById(userId)
+            .then(
+                function(user) {
+                    res.send(user);
+                },
+                function(error) {
+                    res.status(400).send(error);
+                }
+            );
     }
 };

@@ -1,5 +1,8 @@
-/*Services*/
-module.exports = function(app) {
+module.exports = function(app, models) {
+
+    var pageModel = models.pageModel;
+    var websiteModel = models.websiteModel;
+
     var pages = [
         { "_id": "321", "name": "Post 1", "websiteId": "456" },
         { "_id": "432", "name": "Post 2", "websiteId": "456" },
@@ -14,58 +17,104 @@ module.exports = function(app) {
 
     function createPage(req, res) {
         var newPage = req.body;
-        newPage._id = (new Date()).getTime() + "";
-        pages.push(newPage);
-        res.sendStatus(200);
+        var websiteId = req.params.websiteId;
+
+        pageModel
+            .createPage(websiteId, newPage)
+            .then(
+                function(page) {
+                    return websiteModel
+                        .addPageIdToWebsite(page._id, websiteId)
+                },
+                function(error) {
+                    res.status(400).send(error);
+                }
+            ).then(
+            function(response) {
+                res.sendStatus(200);
+            },
+            function(error) {
+                res.status(400).send(error);
+            }
+        )
     }
 
     function findAllPagesForWebsite(req, res) {
         var websiteId = req.params.websiteId;
 
-        var result = [];
-        for(var i in pages) {
-            if(pages[i].websiteId === websiteId) {
-                result.push(pages[i]);
-            }
-        }
-        res.send(result);
+        pageModel
+            .findAllPagesForWebsite(websiteId)
+            .then(
+                function(pages) {
+                    res.json(pages);
+                },
+                function(error) {
+                    res.status(404).send(error);
+                }
+            );
     }
 
     function findPageById(req, res) {
         var pageId = req.params.pageId;
-        for(var i in pages) {
-            if(pages[i]._id === pageId) {
-                res.json(pages[i]);
-                return;
-            }
-        }
-        res.status(400).send("Page with ID " + pageId + " not found");
+
+        pageModel
+            .findPageById(pageId)
+            .then(
+                function(page) {
+                    res.json(page);
+                },
+                function(error) {
+                    res.status(404).send(error);
+                }
+            );
     }
 
     function updatePage(req, res) {
         var page = req.body;
         var pageId = req.params.pageId;
 
-        for(var i in pages) {
-            if(pages[i]._id === pageId) {
-                pages[i].name = page.name;
-                pages[i].title = page.title;
-                res.sendStatus(200);
-                return true;
-            }
-        }
-        res.status(400).send("Page with ID " + pageId + " not found");
+        pageModel
+            .updatePage(pageId, page)
+            .then(
+                function(page) {
+                    res.sendStatus(200);
+                },
+                function(error) {
+                    res.status(404).send("Unable to update page with ID " + pageId);
+                }
+            );
     }
 
     function deletePage(req, res) {
         var pageId = req.params.pageId;
-        for(var i in pages) {
-            if(pages[i]._id === pageId) {
-                pages.splice(i, 1);
-                res.sendStatus(200);
-                return true;
+
+        pageModel
+            .findPageById(pageId)
+            .then(
+                function(page) {
+                    var websiteId = page._website;
+
+                    return websiteModel
+                        .removePageIdFromWebsite(pageId, websiteId)
+                },
+                function(error) {
+                    res.status(404).send("Unable to find page with ID " + pageId);
+                }
+            ).then(
+            function(status) {
+                return pageModel
+                    .deletePage(pageId)
+            },
+            function(error) {
+                res.status(404).send("Unable to remove page with ID " + pageId + " from website");
             }
-        }
-        res.status(404).send("Unable to remove page with ID " + pageId);
+        ).then(
+            function(status) {
+                res.sendStatus(200);
+            },
+            function(error) {
+                res.status(404).send("Unable to delete page with ID " + pageId);
+            }
+        )
     }
 };
