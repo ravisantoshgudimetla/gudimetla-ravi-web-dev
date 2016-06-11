@@ -2,25 +2,91 @@ var request = require("request");
 module.exports = function(app) {
     
     var users = [
-        {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder",    role: "normal"},
-        {_id: "234", username: "bob",      password: "bob",      firstName: "Bob",    lastName: "Marley",    role: "normal"},
-        {_id: "345", username: "charly",   password: "charly",   firstName: "Charly", lastName: "Garcia",    role: "normal"},
-        {_id: "456", username: "jannunzi", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi",   role: "normal"},
-        {_id: "789", username: "ravi",     password: "ravi",     firstName: "ravi",   lastName: "gudimetla", role: "admin"}
+        {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder",    role: "normal" , imageUrl: "http://lorempixel.com/400/200/"},
+        {_id: "234", username: "bob",      password: "bob",      firstName: "Bob",    lastName: "Marley",    role: "normal", imageUrl: "http://lorempixel.com/400/200/"},
+        {_id: "345", username: "charly",   password: "charly",   firstName: "Charly", lastName: "Garcia",    role: "normal", imageUrl: "http://lorempixel.com/400/200/"},
+        {_id: "456", username: "jannunzi", password: "jannunzi", firstName: "Jose",   lastName: "Annunzi",   role: "normal", imageUrl: "http://lorempixel.com/400/200/"},
+        {_id: "b1fd98b0-50a4-470f-ac01-80fea5cc30d2", username: "ravi",     password: "ravi",     firstName: "ravi",   lastName: "gudimetla", role: "admin", imageUrl: "http://lorempixel.com/400/200/"}
     ];
-    var api_base_url = 'https://api.projectoxford.ai/face/v1.0/persongroups/samplegroup';
+    var api_base_url = "https://api.projectoxford.ai/face/v1.0/";
+    var api_group_name = "samplegroup";
+    var api_person_base_url = api_base_url + "persongroups/" + api_group_name;
     var subscription_key = '0a6cc165c1b5415e963541ce642be658';
 
+    app.get("/project/user/get_images", getUserByImage);
     app.get("/project/api/user/:userId", findUserById);
     app.get("/project/api/user", getUsers);
     app.post("/project/api/user", createUser);
     app.put("/project/api/user/:userId", updateUser);
     //app.delete("/api/user/:userId", deleteUser);
-    app.get("/project/api/admin/listusers, listUsers");
+    //app.get("/project/api/admin/listusers, listUsers");
     
-    
-    function listUsers(req, res){
-        res.send(users);
+    function getUserByImage(req, res){
+        var imageurl = req.query['imageurl'];
+        //console.log(imageurl)
+        createUserFace(imageurl, res)
+        //res.sendStatus(402)
+    }
+    function createUserFace(imageurl, res){
+        //console.log("hello world")
+        api_url = api_base_url + "detect?returnFaceId=true&returnFaceLandmarks=false";
+        //console.log(api_url)
+        //console.log(imageurl)
+        request({
+            url: api_url,
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Ocp-Apim-Subscription-Key' : subscription_key
+            },
+            json:{
+                url : imageurl
+
+            }
+
+        }, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                //DB insertion happens here.
+                //console.log(body)
+                console.log(body[0].faceId)
+                facialSearch(body[0].faceId, res); // Show the HTML for the Google homepage.
+            }
+            else{
+                //console.log(error)
+            }
+        })
+    }
+
+    function facialSearch(faceId, res){
+        request({
+            url: api_base_url+ "identify",
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Ocp-Apim-Subscription-Key' : subscription_key
+            },
+            json:{
+                personGroupId : api_group_name,
+                faceIds: [faceId],
+                maxNumOfCandidatesReturned: 1
+            }
+        }, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                //DB insertion happens here.
+                //console.log(body)
+                //console.log(body[0].candidates[0].personId)
+                userId = body[0].candidates[0].personId
+                console.log(userId)
+                for(var i in users) {
+                    //console.log(body.candidates[0].personId)
+                    if(users[i]._id === userId) {
+                        res.send(users[i])
+                        return;
+                    }
+                }
+                //res.status(404).send("User not found");  // Show the HTML for the Google homepage.
+            }
+        })
     }
 
     function createUser(req, res) {
@@ -34,7 +100,7 @@ module.exports = function(app) {
         }
         
         request({
-            url: api_base_url+'/persons',
+            url: api_person_base_url+'/persons',
             method: 'POST',
             headers: {
                 'Content-Type' : 'application/json',
@@ -49,20 +115,20 @@ module.exports = function(app) {
             if (!error && response.statusCode == 200) {
                 //DB insertion happens here.
                 console.log(body)
-                face_create(body.personId, newUser.imageurl); // Show the HTML for the Google homepage.
+                face_create(body.personId, newUser.imageurl, res); // Show the HTML for the Google homepage.
             }
         })
         newUser._id = (new Date()).getTime() + "";
         users.push(newUser);
-        res.json(newUser);
+
     }
 
-    function face_create(personid,imageurl){
+    function face_create(personid,imageurl, res){
         console.log(personid)
         console.log(imageurl)
-        //console.log(api_base_url + '/' + personid + '/persistedFaces')
+        //console.log(api_person_base_url + '/' + personid + '/persistedFaces')
         request({
-            url: api_base_url+'/persons/'+personid+'/persistedFaces',
+            url: api_person_base_url+'/persons/'+personid+'/persistedFaces',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,7 +139,8 @@ module.exports = function(app) {
             }
         }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                console.log(body); // Show the HTML for the Google homepage.
+                console.log(body);
+                res.json(newUser);
             }
             else{
                 console.log(body)
