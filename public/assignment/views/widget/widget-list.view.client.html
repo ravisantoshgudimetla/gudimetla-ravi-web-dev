@@ -23,23 +23,19 @@
 </header>
 
 
-<div class="container-fluid">
-
-    <wam-sortable sorted="model.sorted(start, end)"
-                  data="model.widgets">
-
+<div class="container-fluid" >
         <div ng-repeat="widget in model.widgets | orderBy : 'order'"
              ng-switch="widget.type">
             <div class="jga-widget-tool">
                 <a  href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget/{{widget._id}}">
                     <span class="glyphicon glyphicon-cog"></span>
                 </a>
-                <span class="glyphicon glyphicon-align-justify .widget-handle"></span>
+                <span class="glyphicon glyphicon-align-justify widget-handle"></span>
             </div>
 
             <div ng-switch-when="HEADER"
-                 class="widget">
-                <div ng-switch="widget.size">
+                 class="widget" wam-sortable wam-callback="model.sorted(start, end)" data="model.widgets">
+                <div ng-switch="widget.size" wam-sortable sorted="model.sorted(start, end)" data="model.widgets">
                     <h1 ng-switch-when="1">{{widget.text}}</h1>
                     <h2 ng-switch-when="2">{{widget.text}}</h2>
                     <h3 ng-switch-when="3">{{widget.text}}</h3>
@@ -51,14 +47,14 @@
             </div>
 
             <div ng-switch-when="IMAGE"
-                 class="widget">
+                 class="widget" wam-sortable wam-callback="model.sorted(start, end)" data="model.widgets">
                 <img ng-src="{{widget.url}}"
                      width="{{widget.width}}"/>
             </div>
 
             <div ng-switch-when="HTML"
                  ng-bind-html="model.getTrustedHTML(widget)"
-                 class="widget">
+                 class="widget" wam-sortable wam-callback="model.sorted(start, end)" data="model.widgets">
             </div>
 
             <div ng-switch-when="YOUTUBE"
@@ -71,8 +67,7 @@
                         allowfullscreen></iframe>
             </div>
 
-            <div ng-switch-when="TEXT"
-                 class="widget">
+            <div ng-switch-when="TEXT" wam-sortable wam-callback="model.sorted(start, end)" data="model.widgets">
                 <div ng-if="widget.formatted"
                      text-angular
                      ta-toolbar="[['h1','h2','h3'],['bold','italics','underline','strikeThrough'],
@@ -89,10 +84,11 @@
                           class="form-control">{{widget.text}}</textarea>
             </div>
 
-            <div ng-switch-default>{{widget.type}}</div>
+            <div ng-switch-default wam-sortable wam-callback="model.sorted(start, end)" data="model.widgets">{{widget.type}}</div>
         </div>
-    </wam-sortable>
-</div>
+    </div>
+
+
 
 
 <footer>
@@ -100,12 +96,12 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <div class="navbar-text pull-left">
-                    <a href="">
+                    <a href="" class="navbar-link">
                         <span class="glyphicon glyphicon-play nav-glyphicon"></span>
                     </a>
                 </div>
                 <div class="navbar-text pull-left">
-                    <a href="">
+                    <a href="" class="navbar-link">
                         <span class="glyphicon glyphicon-eye-open nav-glyphicon"></span>
                     </a>
                 </div>

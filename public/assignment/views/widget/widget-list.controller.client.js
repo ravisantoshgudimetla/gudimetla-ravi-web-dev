@@ -13,6 +13,7 @@
         vm.wid = $routeParams.wid;
         vm.pid = $routeParams.pid;
 
+
         function init() {
             WidgetService
                 .findWidgetsByPageId(vm.pid)
@@ -43,6 +44,7 @@
                 .then(
                     function(response) {
                         vm.success = "Reordering successful";
+                        //console.log(startIndex)
                     },
                     function(error) {
                         vm.error = error.data;
@@ -50,5 +52,6 @@
                 )
 
         }
+
     }
 })();

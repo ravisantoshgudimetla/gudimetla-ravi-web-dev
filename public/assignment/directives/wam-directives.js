@@ -1,6 +1,6 @@
 (function() {
     angular
-        .module("wamDirectives", ["WebAppMaker"])
+        .module("wamDirectives", [])
         .directive("wamSortable", wamSortable);
 
     function wamSortable() {
@@ -10,13 +10,15 @@
             var endIndex = -1;
 
             $(element)
+                .find("widget")
                 .sortable({
                     axis: 'y',
 
-                    handle: ".widget-handle",
+                   // handle: ".widget-handle",
 
                     start: function(event, ui) {
                         startIndex = ui.item.index();
+                        console.log("hi")
                     },
                     stop: function (event, ui) {
                         endIndex = ui.item.index();
@@ -26,11 +28,13 @@
                         scope.reorder({start: startIndex, end: endIndex});
                     }
                 });
+                //.draggable();
         }
         return {
             scope: {
                 data: "=",
                 reorder: "&sorted"
+
             },
             link: linker
         }
