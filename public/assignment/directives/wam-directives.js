@@ -1,6 +1,6 @@
 (function() {
     angular
-        .module("wamDirectives", [])
+        .module("wamDirectives", ["WebAppMaker"])
         .directive("wamSortable", wamSortable);
 
     function wamSortable() {
