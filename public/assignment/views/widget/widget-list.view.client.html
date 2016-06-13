@@ -22,15 +22,16 @@
     </nav>
 </header>
 
-<wam-sortable sorted="model.sorted(start,end)" data="model.widgets">
+
 <div class="container-fluid" >
+    <wam-sortable sorted="model.sorted(start,end)" data="model.widgets">
         <div ng-repeat="widget in model.widgets | orderBy : 'order'"
              ng-switch="widget.type">
             <div class="jga-widget-tool">
                 <a  href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget/{{widget._id}}">
                     <span class="glyphicon glyphicon-cog"></span>
                 </a>
-                <span class="glyphicon glyphicon-align-justify widget-handle"></span>
+                <span class="glyphicon glyphicon-align-justify"></span>
             </div>
 
             <div ng-switch-when="HEADER"
@@ -86,8 +87,9 @@
 
             <div ng-switch-default>{{widget.type}}</div>
         </div>
-    </div>
-</wam-sortable>
+    </wam-sortable>
+</div>
+
 
 
 

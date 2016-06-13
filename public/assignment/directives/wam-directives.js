@@ -10,12 +10,8 @@
             var endIndex = -1;
 
             $(element)
-                .find("widget")
                 .sortable({
                     axis: 'y',
-
-                   // handle: ".widget-handle",
-
                     start: function(event, ui) {
                         startIndex = ui.item.index();
                         console.log("hi")
