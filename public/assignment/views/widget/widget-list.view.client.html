@@ -22,7 +22,7 @@
     </nav>
 </header>
 
-
+<wam-sortable sorted="model.sorted(start,end)" data="model.widgets">
 <div class="container-fluid" >
         <div ng-repeat="widget in model.widgets | orderBy : 'order'"
              ng-switch="widget.type">
@@ -34,8 +34,8 @@
             </div>
 
             <div ng-switch-when="HEADER"
-                 class="widget" wam-sortable wam-callback="model.sorted(start, end)" data="model.widgets">
-                <div ng-switch="widget.size" wam-sortable sorted="model.sorted(start, end)" data="model.widgets">
+                 class="widget">
+                <div ng-switch="widget.size">
                     <h1 ng-switch-when="1">{{widget.text}}</h1>
                     <h2 ng-switch-when="2">{{widget.text}}</h2>
                     <h3 ng-switch-when="3">{{widget.text}}</h3>
@@ -47,14 +47,14 @@
             </div>
 
             <div ng-switch-when="IMAGE"
-                 class="widget" wam-sortable wam-callback="model.sorted(start, end)" data="model.widgets">
+                 class="widget">
                 <img ng-src="{{widget.url}}"
                      width="{{widget.width}}"/>
             </div>
 
             <div ng-switch-when="HTML"
                  ng-bind-html="model.getTrustedHTML(widget)"
-                 class="widget" wam-sortable wam-callback="model.sorted(start, end)" data="model.widgets">
+                 class="widget">
             </div>
 
             <div ng-switch-when="YOUTUBE"
@@ -67,7 +67,7 @@
                         allowfullscreen></iframe>
             </div>
 
-            <div ng-switch-when="TEXT" wam-sortable wam-callback="model.sorted(start, end)" data="model.widgets">
+            <div ng-switch-when="TEXT">
                 <div ng-if="widget.formatted"
                      text-angular
                      ta-toolbar="[['h1','h2','h3'],['bold','italics','underline','strikeThrough'],
@@ -84,10 +84,10 @@
                           class="form-control">{{widget.text}}</textarea>
             </div>
 
-            <div ng-switch-default wam-sortable wam-callback="model.sorted(start, end)" data="model.widgets">{{widget.type}}</div>
+            <div ng-switch-default>{{widget.type}}</div>
         </div>
     </div>
-
+</wam-sortable>
 
 
 
