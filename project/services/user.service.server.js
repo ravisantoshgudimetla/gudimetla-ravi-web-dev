@@ -19,6 +19,7 @@ module.exports = function(app, models) {
     app.get("/project/api/user", getUsers);
     app.post("/project/api/user", createUser);
     app.put("/project/api/user/:userId", updateUser);
+    //app.get("/project/home/user/:userId", getUser
     //app.delete("/api/user/:userId", deleteUser);
     //app.get("/project/api/admin/listusers, listUsers");
     
@@ -140,11 +141,11 @@ module.exports = function(app, models) {
                     .createUser(newUser)
                     .then(
                         function(user) {
-                            trainPersonGroup()
+                            trainPersonGroup(); //Making an ansyncronous call here as we don't need this.
                             res.json(user);
                         },
                         function(error) {
-                            console.log(error)
+                            console.log(error);
                             res.status(400).send("Unable to create new user: " + newUser.username);
                         }
                     );
@@ -157,6 +158,7 @@ module.exports = function(app, models) {
         })
     }
 
+    //Ansyncronous call as we don't need it during user creation.
     function trainPersonGroup(){
         request({
             url: api_person_base_url+'/train',
@@ -164,11 +166,14 @@ module.exports = function(app, models) {
             headers: {
                 'Content-Type' : 'application/json',
                 'Ocp-Apim-Subscription-Key' : subscription_key
-            },
+            }
         }, function(error, response, body) {
             if (!error && response.statusCode == 202) {
                 console.log(body);
                 //face_create(body.personId, newUser, res); // Show the HTML for the Google homepage.
+            }
+            else{
+                console.log(body);
             }
         })
 
