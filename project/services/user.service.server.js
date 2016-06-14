@@ -1,5 +1,6 @@
 var request = require("request");
-module.exports = function(app) {
+module.exports = function(app, models) {
+    var userModel = models.userModel;
     
     var users = [
         {_id: "123", username: "alice",    password: "alice",    firstName: "Alice",  lastName: "Wonder",    role: "normal" , imageUrl: "http://lorempixel.com/400/200/"},
@@ -77,6 +78,7 @@ module.exports = function(app) {
                 //console.log(body[0].candidates[0].personId)
                 userId = body[0].candidates[0].personId
                 console.log(userId)
+
                 for(var i in users) {
                     //console.log(body.candidates[0].personId)
                     if(users[i]._id === userId) {
@@ -89,15 +91,8 @@ module.exports = function(app) {
         })
     }
 
-    function createUser(req, res) {
-        var newUser = req.body;
-
-        for(var i in users) {
-            if(users[i].username === newUser.username) {
-                res.status(400).send("Username " + newUser.username + " is already in use");
-                return;
-            }
-        }
+    function userCreateInAPIServer(newUser, res) {
+       // var newUser = req.body;
         
         request({
             url: api_person_base_url+'/persons',
@@ -108,22 +103,20 @@ module.exports = function(app) {
             },
             json:{
                 name : newUser.username
-
             }
 
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
-                //DB insertion happens here.
-                console.log(body)
-                face_create(body.personId, newUser.imageurl, res); // Show the HTML for the Google homepage.
+                console.log(body);
+                face_create(body.personId, newUser, res); // Show the HTML for the Google homepage.
             }
         })
-        newUser._id = (new Date()).getTime() + "";
-        users.push(newUser);
-
+        //newUser._id = (new Date()).getTime() + "";
+        //users.push(newUser);
     }
 
-    function face_create(personid,imageurl, res){
+    function face_create(personid,newUser,res){
+        imageurl = newUser.imageurl;
         console.log(personid)
         console.log(imageurl)
         //console.log(api_person_base_url + '/' + personid + '/persistedFaces')
@@ -140,7 +133,23 @@ module.exports = function(app) {
         }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log(body);
-                res.json(newUser);
+                console.log(body.persistedFaceId)
+                newUser.apiId = body.persistedFaceId;
+                //DB insertion happens here.
+                userModel
+                    .createUser(newUser)
+                    .then(
+                        function(user) {
+                            trainPersonGroup()
+                            res.json(user);
+                        },
+                        function(error) {
+                            console.log(error)
+                            res.status(400).send("Unable to create new user: " + newUser.username);
+                        }
+                    );
+
+                //res.json(newUser);
             }
             else{
                 console.log(body)
@@ -148,7 +157,42 @@ module.exports = function(app) {
         })
     }
 
+    function trainPersonGroup(){
+        request({
+            url: api_person_base_url+'/train',
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Ocp-Apim-Subscription-Key' : subscription_key
+            },
+        }, function(error, response, body) {
+            if (!error && response.statusCode == 202) {
+                console.log(body);
+                //face_create(body.personId, newUser, res); // Show the HTML for the Google homepage.
+            }
+        })
 
+    }
+
+
+    function createUser(req, res) {
+        var newUser = req.body;
+        userModel
+            .findUserByUsername(newUser.username)
+            .then(
+                function(user) {
+                    if(!user) {
+                        userCreateInAPIServer(newUser, res)
+                    }
+                    else {
+                        res.status(400).send("Username " + newUser.username + " is already in use");
+                    }
+                },
+                function(error) {
+                    res.status(400).send(error);
+                }
+            )
+    }
 
 
 

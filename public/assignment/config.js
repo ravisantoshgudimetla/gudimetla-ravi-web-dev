@@ -11,7 +11,7 @@
                 controller: "LoginController",
                 controllerAs: "model"
             })
-            .when("/register", {
+            .when("register", {
                 templateUrl: "views/user/register.view.client.html",
                 controller: "RegisterController",
                 controllerAs: "model"
