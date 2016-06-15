@@ -19,8 +19,8 @@ module.exports = function(app, models) {
     app.get("/project/api/user", getUsers);
     app.post("/project/api/user", createUser);
     app.put("/project/api/user/:userId", updateUser);
-    //app.get("/project/home/user/:userId", getUser
-    //app.delete("/api/user/:userId", deleteUser);
+    //app.get("/project/home/user/:userId", getUser);
+    app.delete("/project/api/user/:userId", deleteUser);
     //app.get("/project/api/admin/listusers, listUsers");
     
     function getUserByImage(req, res){
@@ -199,34 +199,65 @@ module.exports = function(app, models) {
             )
     }
 
+    function deleteUserAPI(userId){
+        request({
+            url: api_person_base_url + '/persons/' + userId,
+            method: 'DELETE',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Ocp-Apim-Subscription-Key' : subscription_key
+            }
+        }, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log(body);
+                //face_create(body.personId, newUser, res); // Show the HTML for the Google homepage.
+            }
+            else{
+                console.log(body);
+            }
+        })
 
+
+    }
 
 
     function deleteUser(req, res) {
-        var id = req.params.userId;
-        for(var i in users) {
-            if(users[i]._id === id) {
-                users.splice(i, 1);
-                res.sendStatus(200);
-                return true;
-            }
+        var userId = req.params.userId;
+        userModel
+            .findUserById(userId)
+            .then(
+                function(user) {
+                    deleteUserAPI(userId);
+                    userModel
+                        .deleteUser(userId)
+                        .then(
+                            function(status) {
+                                res.sendStatus(200);
+                            },
+                            function(error) {
+                                res.status(404).send("Unable to remove user with ID " + userId);
+                            }
+                        );
+                },
+                function(error) {
+                    res.status(400).send(error);
+                }
+            );
         }
-        res.status(404).send("Unable to remove user with ID " + id);
-    }
 
     function updateUser(req, res) {
-        var id = req.params.userId;
+        var userId = req.params.userId;
         var newUser = req.body;
-        for(var i in users) {
-            if(users[i]._id == id) {
-                users[i].firstName = newUser.firstName;
-                users[i].lastName = newUser.lastName;
-                users[i].email = newUser.email;
-                res.sendStatus(200);
-                return true;
-            }
-        }
-        res.status(400).send("User with ID " + id + " not found");
+        userModel
+            .updateUser(userId, newUser)
+            .then(
+                function(user) {
+                    res.sendStatus(200);
+                },
+                function(error) {
+                    res.status(404).send("Unable to update user with ID " + userId);
+                }
+            );
     }
 
     function getUsers(req, res) {
@@ -244,33 +275,60 @@ module.exports = function(app, models) {
     }
 
     function findUserByCredentials(username, password, res) {
-        for(var u in users) {
-            if(users[u].username === username && users[u].password === password) {
-                res.send(users[u]);
-                return;
-            }
-        }
-        res.sendStatus(403);
+        userModel
+            .findUserByCredentials(username, password)
+            .then(
+                function(user) {
+                    if(user) {
+                        res.json(user);
+                    }
+                    else {
+                        res.status(403).send("Username and Password Not Found");
+                    }
+                },
+                function(error) {
+                    res.status(403).send("Unable to login");
+                }
+            );
+    }
+
+
+    function findUserById(req, res) {
+        var userId = req.params.userId;
+        userModel.findUserById(userId)
+            .then(
+                function(user) {
+                    res.send(user);
+                },
+                function(error) {
+                    res.status(400).send(error);
+                }
+            );
     }
 
     function findUserByUsername(username, res) {
-        for(var u in users) {
-            if(users[u].username === username) {
-                res.send(users[u]);
-                return;
-            }
-        }
-        res.status(400).send("User with username " + username + " not found");
+        userModel
+            .findUserByUsername(username)
+            .then(
+                function(user) {
+                    res.json(user);
+                },
+                function(error) {
+                    res.status(400).send("User with username " + username + " not found");
+                }
+            );
     }
 
     function findUserById(req, res) {
         var userId = req.params.userId;
-        for(var i in users) {
-            if(users[i]._id === userId) {
-                res.send(users[i]);
-                return;
-            }
-        }
-        res.status(400).send("User with ID " + userId + " not found");
+        userModel.findUserById(userId)
+            .then(
+                function(user) {
+                    res.send(user);
+                },
+                function(error) {
+                    res.status(400).send(error);
+                }
+            );
     }
 };

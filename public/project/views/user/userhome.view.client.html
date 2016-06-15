@@ -11,10 +11,14 @@
 </header>
 
 <div class="container-fluid">
-    <a  href="#/project/user/{{model.user._id}}">
+    <div align="left">
+        <img ng-src="{{model.user.imageurl}}" height="100" width="100"/>
+    </div>
+    <div>
+    <a  href="#/project/user/{{model.user._id}}" class="username">
                 {{model.user.username}}
     </a>
-    <img ng-src="{{model.user.imageUrl}}"/>
+    </div>
 
 </div>
 
