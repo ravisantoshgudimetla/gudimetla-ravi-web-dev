@@ -77,16 +77,27 @@ module.exports = function(app, models) {
                 //DB insertion happens here.
                 //console.log(body)
                 //console.log(body[0].candidates[0].personId)
-                userId = body[0].candidates[0].personId
-                console.log(userId)
+                //userId = body[0].candidates[0].personId;
+                userId = body[0]
+                console.log(userId);
+                userModel
+                    .findUserByAPIId(userId)
+                    .then(
+                        function(user) {
+                            console.log(user)
+                            res.send(user);
+                        },
+                        function(error){
+                    res.status(404).send("User not found");
+                });
 
-                for(var i in users) {
-                    //console.log(body.candidates[0].personId)
-                    if(users[i]._id === userId) {
-                        res.send(users[i])
-                        return;
-                    }
-                }
+                // for(var i in users) {
+                //     //console.log(body.candidates[0].personId)
+                //     if(users[i]._id === userId) {
+                //         res.send(users[i])
+                //         return;
+                //     }
+                // }
                 //res.status(404).send("User not found");  // Show the HTML for the Google homepage.
             }
         })
@@ -135,7 +146,7 @@ module.exports = function(app, models) {
             if (!error && response.statusCode == 200) {
                 console.log(body);
                 console.log(body.persistedFaceId)
-                newUser.apiId = body.persistedFaceId;
+                newUser.apiId = personid;
                 //DB insertion happens here.
                 userModel
                     .createUser(newUser)
@@ -227,7 +238,7 @@ module.exports = function(app, models) {
             .findUserById(userId)
             .then(
                 function(user) {
-                    deleteUserAPI(userId);
+                    deleteUserAPI(user.apiId.toString());
                     userModel
                         .deleteUser(userId)
                         .then(

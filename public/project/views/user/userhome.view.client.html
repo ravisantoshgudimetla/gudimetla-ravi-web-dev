@@ -9,17 +9,23 @@
         </div>
     </nav>
 </header>
-
+{{model.user}}
 <div class="container-fluid">
-    <div align="left">
-        <img ng-src="{{model.user.imageurl}}" height="100" width="100"/>
+    <div id="main">
+        <div align="left" id="left">
+            <img ng-src="{{model.user.imageurl}}" height="100" width="100"/>
+        </div>
+        <div>
+        <a  href="#/project/user/{{model.user._id}}" class="username">
+                    {{model.user.username}}
+        </a>
+        </div>
+        <div align="right" id="right">
+            <h5>FirstName:{{model.user.firstName}}</h5>
+            <h5>LastName:{{model.user.lastName}}</h5>
+        </div>
+    <a href="model.followUser" ><span class="glyphicons glyphicons-user-vr-add"></span></a>
     </div>
-    <div>
-    <a  href="#/project/user/{{model.user._id}}" class="username">
-                {{model.user.username}}
-    </a>
-    </div>
-
 </div>
 
 

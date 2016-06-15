@@ -10,6 +10,7 @@ module.exports = function() {
         findUserById: findUserById,
         findUserByCredentials: findUserByCredentials,
         findUserByUsername: findUserByUsername,
+        findUserByAPIId:findUserByAPIId,
         updateUser: updateUser,
         deleteUser: deleteUser,
         addWebsiteIdToUser: addWebsiteIdToUser,
@@ -47,6 +48,11 @@ module.exports = function() {
 
     function findUserByUsername(username) {
         return User.findOne({username: username});
+    }
+    
+    function findUserByAPIId(apiId){
+        //console.log(User.findOne({apiId:apiId}));
+        return User.findOne({apiId:apiId});
     }
 
     function updateUser(userId, newUser) {
