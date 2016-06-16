@@ -24,7 +24,7 @@
             <h5>FirstName:{{model.user.firstName}}</h5>
             <h5>LastName:{{model.user.lastName}}</h5>
         </div>
-    <a href="model.followUser" ><span class="glyphicons glyphicons-user-vr-add"></span></a>
+    <a ng-click="model.followUser()" ><span class="glyphicons glyphicons-user-vr-add"></span></a>
     </div>
 </div>
 
@@ -37,6 +37,13 @@
                     <a href="#/project/user/{{model.user._id}}">
                         <span class="glyphicon glyphicon-user nav-glyphicon"></span>
                     </a>
+                </div>
+                <div class="navbar-header">
+                    <div class="navbar-text pull-left">
+                        <a class="navbar-brand" ng-click="model.followUser()" href="#/project/home/user/{{model.user._id}}">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

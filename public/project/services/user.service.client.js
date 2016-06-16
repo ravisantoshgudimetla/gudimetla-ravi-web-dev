@@ -13,7 +13,8 @@
             updateUser: updateUser,
             deleteUser: deleteUser,
             listUsers: listUsers,
-            searchUserByImage:searchUserByImage
+            searchUserByImage:searchUserByImage,
+            updateFollowing: updateFollowing
         };
         return api;
 
@@ -62,7 +63,12 @@
             //console.log(url);
             return $http.get(url)
         }
-    }
 
+        function updateFollowing(uid) {
+        var url="/project/homepage/user/" + uid;
+        return $http.put(url);
+        }
+
+    }
 
 })();

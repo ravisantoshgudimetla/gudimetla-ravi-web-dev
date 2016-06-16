@@ -21,6 +21,7 @@ module.exports = function(app, models) {
     app.put("/project/api/user/:userId", updateUser);
     //app.get("/project/home/user/:userId", getUser);
     app.delete("/project/api/user/:userId", deleteUser);
+    app.put("/project/homepage/user/:userId", updateUserFollower);
     //app.get("/project/api/admin/listusers, listUsers");
     
     function getUserByImage(req, res){
@@ -49,7 +50,8 @@ module.exports = function(app, models) {
         }, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 //DB insertion happens here.
-                //console.log(body)
+                //console.log(response);
+                console.log(body)
                 console.log(body[0].faceId)
                 facialSearch(body[0].faceId, res); // Show the HTML for the Google homepage.
             }
@@ -76,9 +78,9 @@ module.exports = function(app, models) {
             if (!error && response.statusCode == 200) {
                 //DB insertion happens here.
                 //console.log(body)
-                //console.log(body[0].candidates[0].personId)
-                //userId = body[0].candidates[0].personId;
-                userId = body[0]
+                console.log(body[0].candidates[0].personId)
+                userId = body[0].candidates[0].personId;
+                //userId = body[0]
                 console.log(userId);
                 userModel
                     .findUserByAPIId(userId)
@@ -275,22 +277,24 @@ module.exports = function(app, models) {
         var username = req.query['username'];
         var password = req.query['password'];
         if(username && password) {
-            findUserByCredentials(username, password, res);
+            findUserByCredentials(req, username, password, res);
         }
         else if (username) {
-            findUserByUsername(username, res);
+            findUserByUsername(req, username, res);
         }
         else {
             res.send(users);
         }
     }
 
-    function findUserByCredentials(username, password, res) {
+    function findUserByCredentials(req, username, password, res) {
         userModel
             .findUserByCredentials(username, password)
             .then(
                 function(user) {
                     if(user) {
+                        console.log(user)
+                        req.session.userId = user._id;
                         res.json(user);
                     }
                     else {
@@ -309,6 +313,7 @@ module.exports = function(app, models) {
         userModel.findUserById(userId)
             .then(
                 function(user) {
+                    req.session.userId = user._id;
                     res.send(user);
                 },
                 function(error) {
@@ -317,11 +322,12 @@ module.exports = function(app, models) {
             );
     }
 
-    function findUserByUsername(username, res) {
+    function findUserByUsername(req, username, res) {
         userModel
             .findUserByUsername(username)
             .then(
                 function(user) {
+                    req.session.userId = user._id;
                     res.json(user);
                 },
                 function(error) {
@@ -335,6 +341,7 @@ module.exports = function(app, models) {
         userModel.findUserById(userId)
             .then(
                 function(user) {
+                    req.session.userId = user._id;
                     res.send(user);
                 },
                 function(error) {
@@ -342,4 +349,30 @@ module.exports = function(app, models) {
                 }
             );
     }
+
+    function updateUserFollower(req, res){
+        var userId = req.params.userId;
+        //console.log(userId)
+        userModel.findUserById(userId)
+            .then(
+                function(user) {
+                    //console.log(followee.userId);
+                    console.log(user)
+                    user.follower = req.session.userId;
+                    console.log(req.session.userId)
+                    userModel.findUserById(req.session.userId)
+                        .then(
+                            function(follower){
+                                follower.follows = userId;
+                                res.send(follower);
+                            },
+                            function(error){
+                                res.status(400).send(error)
+                            }
+                        )
+                }, function(error) {
+                    res.status(400).send(error);
+                }
+            );
+        }
 };
