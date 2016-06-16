@@ -15,7 +15,8 @@ module.exports = function() {
         deleteUser: deleteUser,
         addWebsiteIdToUser: addWebsiteIdToUser,
         removeWebsiteIdFromUser: removeWebsiteIdFromUser,
-        updateUserFollows:updateUserFollows
+        updateUserFollows:updateUserFollows,
+        updateUserFollowing: updateUserFollowing
     };
     return api;
 

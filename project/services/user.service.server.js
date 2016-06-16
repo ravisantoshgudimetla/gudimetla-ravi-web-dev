@@ -397,12 +397,18 @@ module.exports = function(app, models) {
         console.log(req.params.userId);
         userModel.updateUserFollows(req.params.userId, req.session.userId)
             .then(function(newUser){
-                console.log(newUser)
-                res.send(200)
+                userModel.updateUserFollowing(req.session.userId, req.params.userId)
+                    .then(function(FollowUser){
+                        console.log(FollowUser);
+                        //res.json()
+                        res.json(newUser)
+                    },function(error){
+                        res.send(400)
+                    })
             },function(error){
                 res.send(404)
             })
-    }
+        }
 
     //console.log(req.session.userId)
 }

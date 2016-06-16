@@ -31,7 +31,7 @@
                 //     }, function)
                 //     } 
                 // }
-                console.log("successful");
+                //vm.users = 
                 //}
             }, function(error){
                 console.log("unsuccesful");
