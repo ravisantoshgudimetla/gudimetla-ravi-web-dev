@@ -14,7 +14,8 @@ module.exports = function() {
         updateUser: updateUser,
         deleteUser: deleteUser,
         addWebsiteIdToUser: addWebsiteIdToUser,
-        removeWebsiteIdFromUser: removeWebsiteIdFromUser
+        removeWebsiteIdFromUser: removeWebsiteIdFromUser,
+        updateUserFollows:updateUserFollows
     };
     return api;
 
@@ -63,6 +64,28 @@ module.exports = function() {
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
                 email: newUser.email
+            }
+            }
+        )
+    }
+
+    function updateUserFollowing(userId, followsID) {
+        return User.update(
+            {_id: userId},
+            {$set :
+            {
+                following: followsID
+            }
+            }
+        )
+    }
+
+    function updateUserFollows(userId, followerID) {
+        return User.update(
+            {_id: userId},
+            {$set :
+            {
+                follows: followerID
             }
             }
         )
