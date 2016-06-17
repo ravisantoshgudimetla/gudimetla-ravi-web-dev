@@ -26,12 +26,23 @@
                 controller: "ProfileController",
                 controllerAs: "model"
             })
+            .when("/project/home/user/followers/:uid", {
+                templateUrl: "views/user/followers.view.client.html",
+                controller: "FollowersController",
+                controllerAs: "model"
+            })
+            .when("/project/home/user/following/:uid", {
+                templateUrl: "views/user/following.view.client.html",
+                controller: "FollowingController",
+                controllerAs: "model"
+            })
             .when("/project/home/user/:uid", {
                 templateUrl: "views/user/userhome.view.client.html",
                 controller: "HomePageController",
                 controllerAs: "model"
             })
 
+            
             .when("/project/user/:uid/search_images", {
                 templateUrl: "views/user/image-search.view.client.html",
                 controller: "ImageSearchController",

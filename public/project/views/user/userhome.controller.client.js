@@ -3,7 +3,7 @@
         .module("FotoTag")
         .controller("HomePageController", HomePageController);
 
-    function HomePageController($location, $routeParams, UserService) {
+    function HomePageController($location, $routeParams, UserService, RelationService) {
         var vm = this;
         //vm.updateUser = updateUser;
         //vm.unRegister = unRegister;
@@ -13,29 +13,56 @@
         function init() {
             UserService
                 .findUserById(uid)
-                .then(function(res) {
+                .then(function (res) {
                     vm.user = res.data
                 })
         }
+
         init();
 
-    function followUser(){
-        UserService
-            .updateFollowing(uid)
-            .then(function (res) {
-                //if (res == 200){
-                // UserService
-                //     .findFollowers(){
-                //      .then(function(res){
-                //             vm.user = res.data    
-                //     }, function)
-                //     } 
-                // }
-                //vm.users = 
-                //}
-            }, function(error){
-                console.log("unsuccesful");
-            })
+        function followUser() {
+           // console.log(uid);
+            RelationService
+                .updateFollowing(uid)
+                .then(function (res) {
+                    //if (res == 200){
+                    // UserService
+                    //     .findFollowers(){
+                    //      .then(function(res){
+                    //             vm.user = res.data
+                    //     }, function)
+                    //     }
+                    // }
+                    //vm.userIds = res.data
+                    if (res.status==200) {
+                        vm.success = "User is followed now"
+                    }
+                    else{
+                        //console.log('hi');
+                        vm.error = "Either you are trying to follow yourself or relationship already exists";
+                    }
+                },function(error) {
+                    vm.error = "Either you are trying to follow yourself or relationship already exists";
+
+                    // RelationService
+                    //     .getFollowers(uid)
+                    //     .then(function(response){
+                    //         vm.userIds = response.data
+                    //     },
+                    //     function(error){
+                    //         console.log("successful");
+                    //     })
+                    //
+                //     UserService
+                //         .getFollowers(uid)
+                //         .then(function (response) {
+                //             vm.followusers = response.data
+                //         }, function (error) {
+                //             console.log("unsuccesful");
+                //         });
+                // }, function (error) {
+                //     console.log("error");
+                 })
         }
     }
 })();

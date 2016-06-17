@@ -9,7 +9,18 @@
         </div>
     </nav>
 </header>
-{{model.user}}
+
+<div ng-show="model.success"
+     class="alert alert-success">
+    {{model.success}}
+</div>
+
+<div ng-show="model.error"
+     class="alert alert-danger">
+    {{model.error}}
+</div>
+
+
 <div class="container-fluid">
     <div id="main">
         <div align="left" id="left">
@@ -26,7 +37,14 @@
         </div>
     <a ng-click="model.followUser()" ><span class="glyphicons glyphicons-user-vr-add"></span></a>
     </div>
+    <div align="left">
+    <a href="#/project/home/user/followers/{{model.user._id}}">Followers</a>
+    </div>
+    <div align="right">
+    <a  href="#/project/home/user/following/{{model.user._id}}">Following</a>
 </div>
+</div>
+
 
 
 <footer>
@@ -44,6 +62,16 @@
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     </div>
+
+                    <!--<a class="navbar-brand userFollowers" ng-click="model.getFollowing()" href="#/project/home/user/{{model.user._id}}/following">-->
+                        <span class="glyphicons glyphicons-plus nav-brand userFollowing"></span>
+
+
+
+                        <a class="navbar-brand  userFollowing" ng-click="model.getFollowers()" href="#/project/home/user/{{model.user._id}}/followers">
+                            <span class="glyphicons glyphicons-user-asterisk"></span>
+                        </a>
+
                 </div>
             </div>
         </div>

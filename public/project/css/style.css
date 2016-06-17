@@ -20,6 +20,15 @@ p.navbar-text.pull-right {
     margin-right: 15px;
 }
 
+p.nav-text.pull-middle{
+    margin-right: 45px;
+    margin-left: 45px
+}
+
+.nav-brand.userFollowing{
+    margin-left: 100px;
+}
+
 p.navbar-text.pull-left {
     margin-left: 15px;
 }

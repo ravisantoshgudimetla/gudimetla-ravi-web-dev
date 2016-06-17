@@ -14,7 +14,8 @@
             deleteUser: deleteUser,
             listUsers: listUsers,
             searchUserByImage:searchUserByImage,
-            updateFollowing: updateFollowing
+            updateFollowing: updateFollowing,
+            getFollowers: getFollowers
         };
         return api;
 
@@ -67,6 +68,10 @@
         function updateFollowing(uid) {
         var url="/project/homepage/user/" + uid;
         return $http.put(url);
+        }
+        function getFollowers(uid){
+            var url="/project/homepage/user/getfollowing" + uid;
+            return $http.put(url);
         }
 
     }

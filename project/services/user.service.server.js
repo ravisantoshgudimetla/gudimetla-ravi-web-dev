@@ -62,6 +62,7 @@ module.exports = function(app, models) {
     //app.get("/project/home/user/:userId", getUser);
     app.delete("/project/api/user/:userId", deleteUser);
     app.put("/project/homepage/user/:userId", updateUserFollower);
+//    app.get("/project/homepage/user/getfollowing/:uid", getUserFollowers);
     //app.get("/project/api/admin/listusers, listUsers");
 
     function getUserByImage(req, res) {
@@ -271,7 +272,6 @@ module.exports = function(app, models) {
             }
         })
 
-
     }
 
 
@@ -324,7 +324,13 @@ module.exports = function(app, models) {
             findUserByUsername(req, username, res);
         }
         else {
-            res.send(users);
+            userModel
+                .findAllUsers()
+                .then(function(users){
+                    res.send(users);
+                }, function(error){
+                    res.send(error);
+                })
         }
     }
 
@@ -392,16 +398,20 @@ module.exports = function(app, models) {
             );
     }
 
+    
     function updateUserFollower(req, res){
         console.log(req.session.userId);
         console.log(req.params.userId);
         userModel.updateUserFollows(req.params.userId, req.session.userId)
             .then(function(newUser){
+                //var followers = getFollowers(newUser)
                 userModel.updateUserFollowing(req.session.userId, req.params.userId)
                     .then(function(FollowUser){
                         console.log(FollowUser);
                         //res.json()
-                        res.json(newUser)
+                        
+                        res.json(newUser, FollowUser)
+                        //var following = getFollowing(FollowUser)
                     },function(error){
                         res.send(400)
                     })
@@ -410,5 +420,8 @@ module.exports = function(app, models) {
             })
         }
 
+    
+    
     //console.log(req.session.userId)
 }
+

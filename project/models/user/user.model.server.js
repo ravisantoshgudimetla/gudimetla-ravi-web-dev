@@ -16,7 +16,8 @@ module.exports = function() {
         addWebsiteIdToUser: addWebsiteIdToUser,
         removeWebsiteIdFromUser: removeWebsiteIdFromUser,
         updateUserFollows:updateUserFollows,
-        updateUserFollowing: updateUserFollowing
+        updateUserFollowing: updateUserFollowing,
+        findAllUsers: findAllUsers
     };
     return api;
 
@@ -58,7 +59,7 @@ module.exports = function() {
     }
 
     function updateUser(userId, newUser) {
-        return User.update(
+         return User.update(
             {_id: userId},
             {$set :
             {
@@ -68,10 +69,11 @@ module.exports = function() {
             }
             }
         )
+        //return User.findOne({_id:userId})
     }
 
     function updateUserFollowing(userId, followsID) {
-        return User.update(
+         User.update(
             {_id: userId},
             {$set :
             {
@@ -79,10 +81,11 @@ module.exports = function() {
             }
             }
         )
+        return User.find({_id:userId})
     }
 
     function updateUserFollows(userId, followerID) {
-        return User.update(
+        User.update(
             {_id: userId},
             {$set :
             {
@@ -90,9 +93,14 @@ module.exports = function() {
             }
             }
         )
+        return User.find({_id:userId})
     }
 
     function deleteUser(userId) {
         return User.remove({_id: userId});
+    }
+
+    function findAllUsers(){
+        return User.find();
     }
 };
