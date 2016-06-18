@@ -65,7 +65,9 @@ module.exports = function() {
             {
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
-                email: newUser.email
+                email: newUser.email,
+                Description: newUser.Description
+
             }
             }
         )
