@@ -3,29 +3,35 @@
         .module("WebAppMaker")
         .controller("LoginController", LoginController);
 
-    function LoginController($location, UserService) {
+    function LoginController($location, $rootScope, UserService) {
         var vm = this;
         vm.submitted = false;
 
         vm.login = login;
+
         function login(username, password) {
             vm.submitted = true;
+            if (username != null) {
+                UserService
+                    .login(username.toLowerCase(), password)
+                    .then(
+                        function(response) {
+                            var user = response.data;
+                            if (user) {
+                                $rootScope.currentUser = user;
+                                $location.url("/user/" + user._id);
+                                vm.submitted = false;
+                            }
 
-            UserService
-                .login(username, password)
-                .then(
-                    function(response) {
-                        var user = response.data;
-
-                        if(user) {
-                            var id = user._id;
-                            $location.url("/user/" + id);
-                            vm.submitted = false;
+                        },
+                        function(error) {
+                            vm.error = "Incorrect Username or Password";
                         }
-                    },
-                    function(error) {
-                        vm.error = error.data;
-                    });
+                    );
+            }
+            else {
+                vm.error = "Please enter a username";
+            }
         }
     }
 

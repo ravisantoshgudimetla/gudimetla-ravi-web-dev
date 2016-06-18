@@ -4,7 +4,7 @@
         .controller("RegisterController", RegisterController);
 
 
-    function RegisterController($location, UserService) {
+    function RegisterController($location, $rootScope, UserService) {
 
         var vm = this;
         vm.register = register;
@@ -18,10 +18,11 @@
                 if (password === verifypassword) {
 
                     UserService
-                        .createUser(username, password)
+                        .register(username, password)
                         .then(
-                            function(res) {
-                                var user = res.data;
+                            function(response) {
+                                var user = response.data;
+                                $rootScope.currentUser = user;
                                 $location.url("/user/" + user._id);
                                 vm.submitted = false;
                                 vm.badPassword = false;

@@ -5,23 +5,18 @@
 
     function Config($routeProvider) {
         $routeProvider
-        
             .when("/login", {
                 templateUrl: "views/user/login.view.client.html",
                 controller: "LoginController",
                 controllerAs: "model"
             })
-            .when("register", {
+            .when("/register", {
                 templateUrl: "views/user/register.view.client.html",
                 controller: "RegisterController",
                 controllerAs: "model"
             })
 
-            .when("/user/:uid", {
-                templateUrl: "views/user/profile.view.client.html",
-                controller: "ProfileController",
-                controllerAs: "model"
-            })
+
 
             //website routes
             .when("/user/:uid/website", {
@@ -74,17 +69,61 @@
                 controller: "WidgetEditController",
                 controllerAs: "model"
             })
-            //flickr controller
             .when("/user/:uid/website/:wid/page/:pid/widget/:wgid/flickr", {
                 templateUrl: "views/widget/widget-flickr-search.view.client.html",
                 controller: "FlickrImageSearchController",
                 controllerAs: "model"
             })
+            .when("/user/:uid", {
+                templateUrl: "views/user/profile.view.client.html",
+                controller: "ProfileController",
+                controllerAs: "model",
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            })
+            .when("/user", {
+                templateUrl: "views/user/profile.view.client.html",
+                controller: "ProfileController",
+                controllerAs: "model",
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            })
+
+
 
             //default route - login
             .otherwise({
-                // redirectTo: "views/user/login.view.client.html"
                 redirectTo: "/login"
             });
+
+        function checkLoggedin(UserService, $q, $location, $rootScope) {
+            var deferred = $q.defer();
+            UserService
+                .checkLoggedin()
+                .then(
+                    function(response) {
+                        var user = response.data;
+                        if (user == '0') {
+                            deferred.reject();
+                            $rootScope.currentUser = null;
+                            $location.url("/login");
+                        }
+                        else {
+                            $rootScope.currentUser = user;
+                            deferred.resolve();
+                        }
+                    },
+                    function(error) {
+                        deferred.reject();
+                        $rootScope.currentUser = null;
+                        $location.url("/login");
+                    }
+                );
+
+            return deferred.promise;
+        }
+
     }
 })();

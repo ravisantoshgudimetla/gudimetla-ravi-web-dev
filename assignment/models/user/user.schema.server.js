@@ -10,7 +10,12 @@ var UserSchema = mongoose.Schema({
     phone: String,
     websites: [{type: mongoose.Schema.Types.ObjectId, ref: 'Website'}],
     dateCreate: {type: Date, default: Date.now()},
-    dateUpdated: Date
+    dateUpdated: Date,
+    facebook: {
+        id:     String,
+        token:  String,
+        displayName: String
+    }
 }, {collection: "assignment.user"});
 
 return UserSchema;

@@ -13,7 +13,8 @@ module.exports = function() {
         updateUser: updateUser,
         deleteUser: deleteUser,
         addWebsiteIdToUser: addWebsiteIdToUser,
-        removeWebsiteIdFromUser: removeWebsiteIdFromUser
+        removeWebsiteIdFromUser: removeWebsiteIdFromUser,
+        findUserByFacebookId: findUserByFacebookId
     };
     return api;
 
@@ -64,5 +65,9 @@ module.exports = function() {
 
     function deleteUser(userId) {
         return User.remove({_id: userId});
+    }
+
+    function findUserByFacebookId(facebookId) {
+        return User.findOne({'facebook.id': facebookId});
     }
 };
