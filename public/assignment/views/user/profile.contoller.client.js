@@ -12,7 +12,7 @@
         var uid = $routeParams["uid"];
 
         function init() {
-            if(!uid && $rootScope.currentUser) {
+            if (!uid && $rootScope.currentUser) {
                 vm.user = $rootScope.currentUser;
             }
             else {
@@ -23,6 +23,7 @@
                     })
             }
         }
+
         init();
 
         function logout() {
@@ -31,10 +32,10 @@
             UserService
                 .logout()
                 .then(
-                    function(response) {
+                    function (response) {
                         $location.url("/login");
                     },
-                    function(error) {
+                    function (error) {
                         $location.url("/login");
                     }
                 )
@@ -42,12 +43,12 @@
 
         function updateUser() {
             UserService
-                .updateUser(uid, vm.user)
+                .updateUser(vm.user._id, vm.user)
                 .then(
-                    function(res) {
+                    function (res) {
                         vm.success = "User successfully updated";
                     },
-                    function(error) {
+                    function (error) {
                         vm.error = error.data;
                     }
                 )
@@ -55,16 +56,15 @@
 
         function unRegister() {
             UserService
-                .deleteUser(uid)
+                .deleteUser(vm.user._id)
                 .then(
-                    function(response) {
+                    function (response) {
                         $location.url("/login");
                     },
-                    function(error) {
+                    function (error) {
                         vm.error = error.data;
                     }
                 )
         }
     }
-
 })();
