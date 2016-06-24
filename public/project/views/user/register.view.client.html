@@ -1,3 +1,16 @@
+<style>
+    .btn-xl {
+
+        font-size: 20px;
+        float: left;
+        width:130px;
+        max-width:220px;
+        margin:5px;
+    }
+
+
+</style>
+
 <div class="container-fluid">
 
     <div ng-if="model.error"
@@ -8,7 +21,7 @@
 
     <header>
         <h2>
-            Register
+            Register here:
         </h2>
     </header>
 
@@ -16,6 +29,7 @@
         <div class="form-group">
             <input ng-model="username"
                    type="text"
+                   style="width:415px;"
                    class="form-control"
                    placeholder="username"/>
         </div>
@@ -23,6 +37,7 @@
         <div class="form-group">
             <input ng-model="password"
                    type="password"
+                   style="width:415px;"
                    class="form-control"
                    placeholder="password"/>
         </div>
@@ -30,6 +45,7 @@
         <div class="form-group">
             <input ng-model="verifypassword"
                    type="password"
+                   style="width:415px;"
                    class="form-control"
                    placeholder="verify password"/>
         </div>
@@ -38,16 +54,17 @@
             <input ng-model="imageurl"
                    id="imageurl"
                    type="text"
+                   style="width:415px;"
                    class="form-control"
                    placeholder="www.exampleimage.com/image"/>
         </div>
 
-        <a  class="btn btn-block btn-primary"
+        <a  class="btn btn-block btn-primary btn-xl"
             ng-click="model.register(username, password, verifypassword,imageurl)">
             Register
         </a>
 
-        <a  class="btn btn-block btn-danger"
+        <a  class="btn btn-block btn-danger btn-xl"
             href="#/login">
             Cancel
         </a>

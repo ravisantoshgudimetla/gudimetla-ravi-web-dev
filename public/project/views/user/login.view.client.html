@@ -1,3 +1,16 @@
+<style>
+        .btn-xl {
+
+                font-size: 20px;
+                float: left;
+                width:120px;
+                max-width:220px;
+                margin:5px;
+        }
+
+
+</style>
+
 <div class="container-fluid">
         <div ng-if="model.error"
              class="alert alert-danger">
@@ -5,7 +18,7 @@
         </div>
         <header>
                 <h2>
-                        Login
+                        Login here:
                 </h2>
         </header>
 
@@ -14,7 +27,8 @@
                         <input ng-model="username"
                                type="text"
                                class="form-control"
-                               placeholder="username"/>
+                               placeholder="username"
+                               style="width:260px;"/>
                 </div>
 
                 <div class="form-group">
@@ -22,18 +36,21 @@
                                id="password"
                                type="password"
                                class="form-control"
-                               placeholder="password"/>
+                               placeholder="password"
+                               style="width:260px;"/>
                 </div>
 
-                <a  ng-click="model.login(username, password)"
-                    class="btn btn-block btn-primary">
-                        Login
-                </a>
+                <div>
+                        <a  ng-click="model.login(username, password)"
+                        class="btn btn-primary btn-xl">
+                                Login
+                        </a>
 
-                <a  class="btn btn-block btn-success"
-                    href="#/register">
-                        Register
-                </a>
+                        <a  class="btn btn-block btn-success btn-xl"
+                        href="#/register">
+                                Register
+                        </a>
+                </div>
 
         </form>
 </div>
