@@ -2,6 +2,11 @@ var request = require("request");
 module.exports = function(app, models) {
     var userModel = models.userModel;
 
+    var multer = require('multer');
+    var upload = multer({ dest: __dirname+'/../../public/uploads' });
+
+    app.post ("/api/project/upload", upload.single('myFile'), uploadImage);
+
     var users = [
         {
             _id: "123",
@@ -64,6 +69,53 @@ module.exports = function(app, models) {
     app.put("/project/homepage/user/:userId", updateUserFollower);
 //    app.get("/project/homepage/user/getfollowing/:uid", getUserFollowers);
     //app.get("/project/api/admin/listusers, listUsers");
+
+
+    function uploadImage(req, res) {
+
+
+        var widgetId      = req.body.widgetId;
+        var websiteId     = req.body.websiteId;
+        var pageId        = req.body.pageId;
+        var userId        = req.body.userId;
+        var width         = req.body.width;
+        var myFile        = req.file;
+
+        // if no file has been selected, don't set the URL and don't upload any file
+        if(myFile == null) {
+            res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+            return;
+        }
+
+        var originalname  = myFile.originalname; // file name on user's computer
+        var filename      = myFile.filename;     // new file name in upload folder
+        var path          = myFile.path;         // full path of uploaded file
+        var destination   = myFile.destination;  // folder where file is saved to
+        var size          = myFile.size;
+        var mimetype      = myFile.mimetype;
+
+        widgetModel
+            .findWidgetById(widgetId)
+            .then(
+                function(widget) {
+                    widget.url = "/uploads/" + filename;
+
+                    return widgetModel
+                        .updateWidget(widgetId, widget)
+                },
+                function(error) {
+                    res.status(404).send(error);
+                }
+            ).then(
+            function(widget) {
+                res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+            },
+            function(error) {
+                res.status(404).send("Unable to update widget with ID " + widgetId);
+            }
+        )
+    }
+
 
     function getUserByImage(req, res) {
         var imageurl = req.query['imageurl'];

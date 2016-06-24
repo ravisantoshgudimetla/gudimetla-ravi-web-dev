@@ -7,12 +7,16 @@ module.exports = function(app, models) {
 
     var userModel = models.userModel;
 
+    // var facebookConfig = {
+    //     clientID     : process.env.FACEBOOK_CLIENT_ID,
+    //     clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
+    //     callbackURL  : process.env.FACEBOOK_CALLBACK_URL
+    // };
     var facebookConfig = {
-        clientID     : process.env.FACEBOOK_CLIENT_ID,
-        clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
-        callbackURL  : process.env.FACEBOOK_CALLBACK_URL
-    };
-
+          clientID     : "1115644975165191",
+         clientSecret : "a17eebd67d5ad289ef6413a777e02af9",
+          callbackURL  : "http://localhost:3000/auth/facebook/callback"
+        };
     // };
 
     app.get("/api/user", getUsers);

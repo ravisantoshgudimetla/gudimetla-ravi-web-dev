@@ -73,6 +73,18 @@
                    class="form-control"
                    placeholder="Description"/>
         </div>
+        <div class="form-group">
+            <form action="/api/project/upload" method="post" enctype="multipart/form-data">
+                <label for="widget-upload">Upload</label>
+                <input  name="myFile"   id="widget-upload" type="file" class="form-control"/>
+                <input  name="width"    value="{{model.widget.width}}" style="display: none"/>
+                <input  name="widgetId" value="{{model.widget._id}}"     style="display: none"/>
+                <input  name="userId" value="{{model.uid}}"     style="display: none"/>
+                <input  name="pageId" value="{{model.pid}}"     style="display: none"/>
+                <input  name="websiteId" value="{{model.wid}}"     style="display: none"/>
+                <button type="submit"   class="btn btn-block btn-primary">Upload Image</button>
+            </form>
+        </div>
         <a  class="btn btn-block btn-primary"
             href="#/project/user/{{model.user._id}}/search_images">
             Search
@@ -86,6 +98,8 @@
             Unregister
         </a>
     </form>
+
+
 </div>
 <footer>
     <nav class="navbar navbar-default navbar-fixed-bottom">
