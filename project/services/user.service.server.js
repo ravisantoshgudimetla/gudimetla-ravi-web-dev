@@ -1,59 +1,37 @@
 var request = require("request");
+var passport = require("passport");
+var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+var bcrypt = require("bcrypt-nodejs");
+
 module.exports = function(app, models) {
     var userModel = models.userModel;
 
     var multer = require('multer');
     var upload = multer({ dest: __dirname+'/../../public/uploads' });
 
-    app.post ("/api/project/upload", upload.single('myFile'), uploadImage);
+    var facebookConfig = {
+        clientID     : "1115644975165191",
+        clientSecret : "a17eebd67d5ad289ef6413a777e02af9",
+        callbackURL  : "http://localhost:3000/auth/project/facebook/callback"
+    };
 
-    var users = [
-        {
-            _id: "123",
-            username: "alice",
-            password: "alice",
-            firstName: "Alice",
-            lastName: "Wonder",
-            role: "normal",
-            imageUrl: "http://lorempixel.com/400/200/"
-        },
-        {
-            _id: "234",
-            username: "bob",
-            password: "bob",
-            firstName: "Bob",
-            lastName: "Marley",
-            role: "normal",
-            imageUrl: "http://lorempixel.com/400/200/"
-        },
-        {
-            _id: "345",
-            username: "charly",
-            password: "charly",
-            firstName: "Charly",
-            lastName: "Garcia",
-            role: "normal",
-            imageUrl: "http://lorempixel.com/400/200/"
-        },
-        {
-            _id: "456",
-            username: "jannunzi",
-            password: "jannunzi",
-            firstName: "Jose",
-            lastName: "Annunzi",
-            role: "normal",
-            imageUrl: "http://lorempixel.com/400/200/"
-        },
-        {
-            _id: "b1fd98b0-50a4-470f-ac01-80fea5cc30d2",
-            username: "ravi",
-            password: "ravi",
-            firstName: "ravi",
-            lastName: "gudimetla",
-            role: "admin",
-            imageUrl: "http://lorempixel.com/400/200/"
-        }
-    ];
+    //app.post ("/project/api/upload", upload.single('myFile'), uploadImage);
+    app.post("/project/api/login", passport.authenticate('project'), login);
+    app.post('/project/api/logout', logout);
+    app.get ('/project/api/loggedin', loggedin);
+    app.post("/project/api/register", register);
+    app.get('/auth/project/facebook', passport.authenticate('facebook', { scope : 'email' }));
+    app.get('/auth/project/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect: '/project/#/users',
+            failureRedirect: '/project/#/login'
+        }));
+    passport.use('project', new LocalStrategy(localProjectStrategy));
+    passport.use(new FacebookStrategy(facebookConfig, facebookStrategy));
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
+    app.delete("/api/project/user/:userId", authorized, deleteUser);
     var api_base_url = "https://api.projectoxford.ai/face/v1.0/";
     var api_group_name = "samplegroup";
     var api_person_base_url = api_base_url + "persongroups/" + api_group_name;
@@ -71,50 +49,143 @@ module.exports = function(app, models) {
     //app.get("/project/api/admin/listusers, listUsers");
 
 
-    function uploadImage(req, res) {
-
-
-        var widgetId      = req.body.widgetId;
-        var websiteId     = req.body.websiteId;
-        var pageId        = req.body.pageId;
-        var userId        = req.body.userId;
-        var width         = req.body.width;
-        var myFile        = req.file;
-
-        // if no file has been selected, don't set the URL and don't upload any file
-        if(myFile == null) {
-            res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
-            return;
+    function authorized(req, res, next) {
+        if (!req.isAuthenticated()) {
+            res.sendStatus(401);
         }
+        else {
+            next();
+        }
+    }
 
-        var originalname  = myFile.originalname; // file name on user's computer
-        var filename      = myFile.filename;     // new file name in upload folder
-        var path          = myFile.path;         // full path of uploaded file
-        var destination   = myFile.destination;  // folder where file is saved to
-        var size          = myFile.size;
-        var mimetype      = myFile.mimetype;
-
-        widgetModel
-            .findWidgetById(widgetId)
+    function facebookStrategy(token, refreshToken, profile, done) {
+        userModel
+            .findUserByFacebookId(profile.id)
             .then(
-                function(widget) {
-                    widget.url = "/uploads/" + filename;
+                function(user) {
+                    if (user) {
+                        //console.log(user)
+                        //console.log(profile.token)
+                        return done(null, user);
+                    }
+                    else {
+                        var newUser = {
+                            username: profile.displayName.replace(/ /g, '').toLowerCase(),
+                            facebook: {
+                                id: profile.id,
+                                token: token,
+                                displayName: profile.displayName
+                            },
+                            imageurl: "https://graph.facebook.com/" + profile.id + "/picture" + "?width=200&height=200" + "&access_token=" + token
+                        };
+                        userModel
+                            .createUser(newUser)
+                            .then(
+                                function(user) {
+                                    trainPersonGroup();
+                                    return done(null, user);
+                                }
+                            )
+                    }
+                }
+            );
 
-                    return widgetModel
-                        .updateWidget(widgetId, widget)
+    }
+
+    function login(req, res) {
+        var user = req.user;
+        res.json(user);
+    }
+
+    function logout(req, res) {
+        req.logout();
+        res.sendStatus(200);
+    }
+
+    function loggedin(req, res) {
+        if (req.isAuthenticated()) {
+            res.json(req.user);
+        }
+        else {
+            res.send('0');
+        }
+    }
+    
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    function deserializeUser(user, done) {
+        userModel
+            .findUserById(user._id)
+            .then(
+                function(user) {
+                    done(null, user);
+                },
+                function(err) {
+                    done(err, null);
+                }
+            );
+    }
+    function localProjectStrategy(username, password, done) {
+        userModel
+            .findUserByUsername(username)
+            .then(
+                function(user) {
+                    if (user && bcrypt.compareSync(password, user.password)) {
+                        return done(null, user);
+                    }
+                    else {
+                        return done(null, false);
+                    }
+                },
+                function(err) {
+                    if (err) {
+                        return done(err);
+                    }
+                }
+            )
+    }
+    function register(req, res) {
+        var username = req.body.username;
+        var password = req.body.password;
+
+        userModel
+            .findUserByUsername(username)
+            .then(
+                function(user) {
+                    if(user) {
+                        res.status(400).send("Username already exists");
+                    }
+                    else {
+                        req.body.password = bcrypt.hashSync(password);
+                        return userModel
+                            .createUser(req.body);
+                    }
                 },
                 function(error) {
-                    res.status(404).send(error);
+                    res.status(400).send(error);
                 }
-            ).then(
-            function(widget) {
-                res.redirect("/assignment/#/user/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
-            },
-            function(error) {
-                res.status(404).send("Unable to update widget with ID " + widgetId);
-            }
-        )
+            )
+            .then(
+                function(user) {
+                    if(user){
+                        req.login(user, function(err) {
+                            if(err) {
+                                res.status(400).send(err);
+                            } else {
+                                res.json(user);
+                            }
+                        });
+                    }
+                },
+                function(error) {
+                    res.status(400).send(error);
+                }
+            )
     }
+
+
 
 
     function getUserByImage(req, res) {
@@ -187,17 +258,9 @@ module.exports = function(app, models) {
                             res.status(404).send("User not found");
                         });
 
-                // for(var i in users) {
-                //     //console.log(body.candidates[0].personId)
-                //     if(users[i]._id === userId) {
-                //         res.send(users[i])
-                //         return;
-                //     }
-                // }
-                //res.status(404).send("User not found");  // Show the HTML for the Google homepage.
-            }
-        })
-    }
+                    }
+                })
+              }
 
     function userCreateInAPIServer(newUser, res) {
         // var newUser = req.body;
@@ -225,8 +288,9 @@ module.exports = function(app, models) {
 
     function face_create(personid, newUser, res) {
         imageurl = newUser.imageurl;
-        console.log(personid)
-        console.log(imageurl)
+        newUser.password = bcrypt.hashSync(newUser.password);
+        console.log(personid);
+        console.log(imageurl);
         //console.log(api_person_base_url + '/' + personid + '/persistedFaces')
         request({
             url: api_person_base_url + '/persons/' + personid + '/persistedFaces',
@@ -243,6 +307,7 @@ module.exports = function(app, models) {
                 console.log(body);
                 console.log(body.persistedFaceId)
                 newUser.apiId = personid;
+
                 //DB insertion happens here.
                 userModel
                     .createUser(newUser)

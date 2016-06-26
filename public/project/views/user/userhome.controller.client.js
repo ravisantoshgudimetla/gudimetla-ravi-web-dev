@@ -3,7 +3,7 @@
         .module("FotoTag")
         .controller("HomePageController", HomePageController);
 
-    function HomePageController($location, $routeParams, UserService, RelationService) {
+    function HomePageController($rootScope, $routeParams, UserService, RelationService) {
         var vm = this;
         //vm.updateUser = updateUser;
         //vm.unRegister = unRegister;
@@ -11,11 +11,16 @@
         var uid = $routeParams["uid"];
         vm.followUser = followUser;
         function init() {
-            UserService
-                .findUserById(uid)
-                .then(function (res) {
-                    vm.user = res.data
-                })
+            if (!uid && $rootScope.currentUser) {
+                vm.user = $rootScope.currentUser;
+            }
+            else {
+                UserService
+                    .findUserById(uid)
+                    .then(function (res) {
+                        vm.user = res.data
+                    })
+            }
         }
 
         init();
@@ -23,7 +28,7 @@
         function followUser() {
            // console.log(uid);
             RelationService
-                .updateFollowing(uid)
+                .updateFollowing(vm.user._id)
                 .then(function (res) {
                     //if (res == 200){
                     // UserService

@@ -12,6 +12,11 @@ var UserSchema = mongoose.Schema({
     apiId: String,
     imageurl: String,//URL of the image, as there is no need to store the image
     dateCreate: {type: Date, default: Date.now()},
+    facebook: {
+        id:     String,
+        token:  String,
+        displayName: String
+    },
     Description: String,
     dateUpdated: Date
 }, {collection: "project.user"});

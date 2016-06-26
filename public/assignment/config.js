@@ -91,7 +91,7 @@
                 }
             })
 
-
+            
 
             //default route - login
             .otherwise({
@@ -100,11 +100,13 @@
 
         function checkLoggedin(UserService, $q, $location, $rootScope) {
             var deferred = $q.defer();
+            //console.log("hi")
             UserService
                 .checkLoggedin()
                 .then(
                     function(response) {
                         var user = response.data;
+                        console.login(user)
                         if (user == '0') {
                             deferred.reject();
                             $rootScope.currentUser = null;

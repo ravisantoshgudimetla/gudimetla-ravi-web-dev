@@ -3,30 +3,52 @@
         .module("FotoTag")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($location, $routeParams, UserService) {
+    function ProfileController($location, $routeParams,$rootScope, UserService) {
         var vm = this;
         vm.updateUser = updateUser;
         vm.unRegister = unRegister;
+        vm.logout = logout;
 
         var uid = $routeParams["uid"];
 
         function init() {
-            UserService
-                .findUserById(uid)
-                .then(function(res) {
-                    vm.user = res.data
-                })
+            if (!uid && $rootScope.currentUser) {
+                vm.user = $rootScope.currentUser;
+            }
+            else {
+                UserService
+                    .findUserById(uid)
+                    .then(function (res) {
+                        vm.user = res.data
+                    })
+            }
         }
+
         init();
+
+        function logout() {
+            $rootScope.currentUser = null;
+
+            UserService
+                .logout()
+                .then(
+                    function (response) {
+                        $location.url("/login");
+                    },
+                    function (error) {
+                        $location.url("/login");
+                    }
+                )
+        }
 
         function updateUser() {
             UserService
-                .updateUser(uid, vm.user)
+                .updateUser(vm.user._id, vm.user)
                 .then(
-                    function(res) {
+                    function (res) {
                         vm.success = "User successfully updated";
                     },
-                    function(error) {
+                    function (error) {
                         vm.error = error.data;
                     }
                 )
@@ -34,16 +56,15 @@
 
         function unRegister() {
             UserService
-                .deleteUser(uid)
+                .deleteUser(vm.user._id)
                 .then(
-                    function(response) {
+                    function (response) {
                         $location.url("/login");
                     },
-                    function(error) {
+                    function (error) {
                         vm.error = error.data;
                     }
                 )
         }
     }
-
 })();

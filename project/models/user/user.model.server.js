@@ -17,7 +17,8 @@ module.exports = function() {
         removeWebsiteIdFromUser: removeWebsiteIdFromUser,
         updateUserFollows:updateUserFollows,
         updateUserFollowing: updateUserFollowing,
-        findAllUsers: findAllUsers
+        findAllUsers: findAllUsers,
+        findUserByFacebookId: findUserByFacebookId
     };
     return api;
 
@@ -104,5 +105,9 @@ module.exports = function() {
 
     function findAllUsers(){
         return User.find();
+    }
+
+    function findUserByFacebookId(facebookId) {
+        return User.findOne({'facebook.id': facebookId});
     }
 };
