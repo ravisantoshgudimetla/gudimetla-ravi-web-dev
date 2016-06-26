@@ -7,8 +7,8 @@ module.exports = function(app, models) {
 
     function getFollowers(req, res){
         followingId = req.params.userId;
-        console.log("hi");
-        console.log(followingId)
+        //console.log("hi");
+        //console.log(followingId)
         relationModel   
             .findFollowingById(followingId)
             .then(function(userIds) {
@@ -20,12 +20,12 @@ module.exports = function(app, models) {
 
     function getFollowing(req, res){
         followingId = req.params.userId;
-        console.log("hi");
-        console.log(followingId)
+        //console.log("hi");
+        //console.log(followingId)
         relationModel
             .findFollowersById(followingId)
             .then(function(userIds) {
-                console.log(userIds)
+                //console.log(userIds)
                 res.json(userIds)
             },function(error){
                 res.send(404)
@@ -33,20 +33,21 @@ module.exports = function(app, models) {
     }
 
     function createRelation(req, res) {
-        console.log(req.session.userId);
-        console.log(req.params.userId);
+        //console.log(req.user._id);
+        //console.log(req.params.userId);
         var relation = {
-            followerId: req.session.userId,
+            followerId: req.user._id,
             followingId: req.params.userId
         };
-        if(null != req.session.userId && (req.session.userId !== req.params.userId)){
+        if(null != req.user._id && (req.user._id != req.params.userId)){
             relationModel
-                .findRelationship(req.session.userId, req.params.userId)
+                .findRelationship(req.user._id, req.params.userId)
                 .then(function (count) {
                     if (count == 0) {
-                        console.log(count)
+                        //console.log(count)
                         relationModel.createRelation(relation)
-                        res.status(200)
+                        //res.status(200)
+                        res.statusCode(200).send("Relation Added")
                     }
                     else{
                         res.status(400).send('Relationship already exists')

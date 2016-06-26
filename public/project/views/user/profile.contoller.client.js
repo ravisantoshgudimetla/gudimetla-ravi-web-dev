@@ -10,10 +10,12 @@
         vm.logout = logout;
 
         var uid = $routeParams["uid"];
+        //vm.adminuser = $rootScope.currentUser;
 
         function init() {
             if (!uid && $rootScope.currentUser) {
                 vm.user = $rootScope.currentUser;
+                //vm.adminuser = $rootScope.currentUser;
             }
             else {
                 UserService
@@ -59,7 +61,7 @@
                 .deleteUser(vm.user._id)
                 .then(
                     function (response) {
-                        $location.url("/login");
+                           $location.url("/login");
                     },
                     function (error) {
                         vm.error = error.data;

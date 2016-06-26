@@ -3,7 +3,7 @@
         .module("FotoTag")
         .controller("FollowingController", FollowingController);
 
-    function FollowingController($location, $routeParams, UserService, RelationService) {
+    function FollowingController($routeParams, UserService, RelationService) {
         var vm = this;
         //vm.updateUser = updateUser;
         //vm.unRegister = unRegister;

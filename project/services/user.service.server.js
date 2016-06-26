@@ -104,7 +104,9 @@ module.exports = function(app, models) {
 
     function loggedin(req, res) {
         if (req.isAuthenticated()) {
+            console.log(req.user._id)
             res.json(req.user);
+            //req.session.userId = req.user._id;
         }
         else {
             res.send('0');
@@ -517,8 +519,8 @@ module.exports = function(app, models) {
 
     
     function updateUserFollower(req, res){
-        console.log(req.session.userId);
-        console.log(req.params.userId);
+        //console.log(req.session.userId);
+        //console.log(req.params.userId);
         userModel.updateUserFollows(req.params.userId, req.session.userId)
             .then(function(newUser){
                 //var followers = getFollowers(newUser)
