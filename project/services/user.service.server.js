@@ -104,7 +104,7 @@ module.exports = function(app, models) {
 
     function loggedin(req, res) {
         if (req.isAuthenticated()) {
-            console.log(req.user._id)
+            //console.log(req.user._id)
             res.json(req.user);
             //req.session.userId = req.user._id;
         }

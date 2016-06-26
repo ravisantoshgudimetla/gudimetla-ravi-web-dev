@@ -25,7 +25,7 @@
                     <!-- Twitter Button -->
                 </div>
 
-                <a href="#/project/user/{{model.user._id}}" class="twPc-avatarLink">
+                <a ng-click="model.checkUser()"  class="twPc-avatarLink">
                     <!--<img alt="Mert Salih Kaplan" src="https://pbs.twimg.com/profile_images/378800000352678934/34f9e192635975bf42e534434e2b6273_bigger.jpeg" class="twPc-avatarImg">-->
                     <img ng-src="{{model.user.imageurl}}" class="twPc-avatarImg"/>
                 </a>
@@ -36,7 +36,7 @@
                         <a href="#/project/user/{{model.user._id}}">{{model.user.firstName}} {{model.user.lastName}}</a>
                     </div>
 			<span>
-				<a href="#/project/user/{{model.user._id}}" style="font-size:20px">@<span>{{model.user.username}}</span></a>
+				<a ng-click="model.checkUser()"  style="font-size:20px">@<span>{{model.user.username}}</span></a>
 			</span>
                 </div>
 

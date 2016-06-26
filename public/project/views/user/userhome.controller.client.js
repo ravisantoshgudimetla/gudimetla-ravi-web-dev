@@ -3,11 +3,12 @@
         .module("FotoTag")
         .controller("HomePageController", HomePageController);
 
-    function HomePageController($rootScope, $routeParams, UserService, RelationService) {
+    function HomePageController($location, $rootScope, $routeParams, UserService, RelationService) {
         var vm = this;
         //vm.updateUser = updateUser;
         //vm.unRegister = unRegister;
         vm.followUser = followUser;
+        vm.checkUser = checkUser;
         var uid = $routeParams["uid"];
 
         function init() {
@@ -28,7 +29,21 @@
         }
 
         init();
+        
+        function checkUser(){
+           // console.log("hi")
+            currentUserId = $rootScope.currentUser._id;
+            //console.log()
+            if(currentUserId === uid){
+                console.log(currentUserId);
+                $location.url("/project/user/"+ uid);
+            }
+            else{
+                $location.url("/project/home/user/" + uid);
+            }
 
+        }
+        
         function followUser() {
            // console.log(uid);
             RelationService
@@ -53,6 +68,8 @@
                     // }
                     console.log(res.data);
                     vm.success = "User is followed now";
+                    getFollowerCount(vm.user._id);
+                    getFollowingCount(vm.user._id);
                 },function(error) {
                     vm.error = "Either you are trying to follow yourself or relationship already exists";
 
@@ -83,5 +100,6 @@
                         vm.error = "Error getting followers for this user"
                     })
         }
+        
     }
 })();
