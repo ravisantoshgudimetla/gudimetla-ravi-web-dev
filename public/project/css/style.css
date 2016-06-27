@@ -32,6 +32,9 @@ p.nav-text.pull-middle{
 p.navbar-text.pull-left {
     margin-left: 15px;
 }
+.text-used{
+    margin-top: 15px;
+}
 
 .left{
     float: left;
@@ -143,4 +146,41 @@ ul.twPc-Arrange {
     overflow: hidden;
     text-transform: uppercase;
     transition: color 0.15s ease-in-out 0s;
+}
+
+
+.page-top{
+background: #2c3e50;
+}
+
+
+
+p.fonts {
+    color: #FFFFFF;
+}
+
+
+.login-body  {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+}
+
+.login-footer {
+    color: #fff;
+    position:relative;
+    width: 100%;
+
+}
+
+footer h3 {
+    margin-bottom: 30px;
+}
+
+
+
+.footer-below {
+    background-color: #233140;
 }

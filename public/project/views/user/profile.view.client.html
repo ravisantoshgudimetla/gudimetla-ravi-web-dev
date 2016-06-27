@@ -1,11 +1,9 @@
 <header>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top page-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand">
-                    Profile
-                </a>
-                <p class="navbar-text navbar-right">
+                <a class="navbar-brand" href="#page-top"><p class="fonts">Profile</p></a>
+                           <p class="navbar-text navbar-right">
                     <a ng-click="model.updateUser()"
                        class="navbar-link">
                         <span class="glyphicon glyphicon-ok pull-right nav-glyphicon"></span>
@@ -20,8 +18,8 @@
 
 
 
-
-<div class="container-fluid">
+<body>
+<div class="container-fluid login-body">
 
 
     <div ng-show="model.success"
@@ -76,8 +74,8 @@
                    placeholder="Description"/>
         </div>
         <div class="form-group">
-            <div ng-if="!model.user.facebook">
             <label for="ImageURL">ImageURL</label>
+            <div ng-if="!model.user.facebook">
             <input ng-model="model.user.imageurl"
                    id="ImageURL"
                    type="text"
@@ -85,17 +83,31 @@
                    placeholder="ImageURL"/>
             </div>
         </div>
-        <a  class="btn btn-block btn-primary btn-xl"
+        <a  class="btn btn-block btn-primary"
             href="#/project/user/{{model.user._id}}/search_images">
             Search
         </a>
-        <a  class="btn btn-block btn-danger btn-xl"
+        <a  class="btn btn-block btn-danger"
             href="#/login">
             Logout
         </a>
         <a  ng-click="model.unRegister()"
-            class="btn btn-block btn-danger btn-xl">
+            class="btn btn-block btn-danger">
             Unregister
         </a>
     </form>
 </div>
+</body>
+
+
+<footer class="text-center">
+    <nav class="navbar navbar-default navbar-fixed-bottom footer-below">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" align="center">
+                    <p class="fonts text-used">Copyright &copy; Ravi 2016</p>
+                </div>
+            </div>
+        </div>
+    </nav>
+</footer>
