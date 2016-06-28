@@ -75,15 +75,18 @@ module.exports = function(app, models) {
                                 displayName: profile.displayName
                             },
                             imageurl: "https://graph.facebook.com/" + profile.id + "/picture" + "?width=200&height=200" + "&access_token=" + token
+
                         };
-                        userModel
-                            .createUser(newUser)
-                            .then(
-                                function(user) {
-                                    trainPersonGroup();
-                                    return done(null, user);
-                                }
-                            )
+                        createNewUser(newUser);
+                        // userModel
+                        //     .createUser(newUser)
+                        //     .then(
+                        //         function(user) {
+                        //
+                        //             trainPersonGroup();
+                        //             return done(null, user);
+                        //         }
+                        //     )
                     }
                 }
             );
@@ -354,22 +357,28 @@ module.exports = function(app, models) {
 
     function createUser(req, res) {
         var newUser = req.body;
-        userModel
-            .findUserByUsername(newUser.username)
-            .then(
-                function (user) {
-                    if (!user) {
-                        userCreateInAPIServer(newUser, res)
-                    }
-                    else {
-                        res.status(400).send("Username " + newUser.username + " is already in use");
-                    }
-                },
-                function (error) {
-                    res.status(400).send(error);
-                }
-            )
+        createNewUser(newUser);
     }
+
+    function createNewUser(newUser)
+        {
+            userModel
+                .findUserByUsername(newUser.username)
+                .then(
+                    function (user) {
+                        if (!user) {
+                            userCreateInAPIServer(newUser, res)
+                        }
+                        else {
+                            res.status(400).send("Username " + newUser.username + " is already in use");
+                        }
+                    },
+                    function (error) {
+                        res.status(400).send(error);
+                    }
+                )
+        }
+
 
     function deleteUserAPI(userId) {
         request({
