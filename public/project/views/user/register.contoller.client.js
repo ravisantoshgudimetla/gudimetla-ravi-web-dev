@@ -11,13 +11,14 @@
         var vm = this;
         vm.register = register;
 
-        function register(username, password, verifypassword, imageurl) {
+        function register(username, password, verifypassword, imageurl, Description) {
+            vm.submitted = true;
             if (username && password && verifypassword) {
 
                 if (password === verifypassword) {
 
                     UserService
-                        .createUser(username, password, imageurl)
+                        .createUser(username, password, imageurl, Description)
                         .then(
                             function (res) {
                                 var user = res.data;

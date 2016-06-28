@@ -47,12 +47,13 @@
             return $http.get("/project/api/loggedin");
         }
         
-        function createUser(username, password, imageurl) {
+        function createUser(username, password, imageurl, Description) {
             var url = "/project/api/user";
             var user = {
                 username: username,
                 password: password,
-                imageurl: imageurl
+                imageurl: imageurl,
+                Description: Description
             };
             return $http.post(url, user);
         }

@@ -13,38 +13,82 @@
         </h2>
     </header>
 
-    <form>
-        <div class="form-group">
+    <form name="form" role="form">
+        <div class="form-group"
+             ng-class="{ 'has-error': form.username.$error.required && model.submitted}">
             <input ng-model="username"
+                   name="username"
                    type="text"
                    class="form-control"
-                   placeholder="username"/>
+                   placeholder="username"
+            required/>
+            <span ng-show="form.username.$error.required && model.submitted"
+                  class="help-block">
+            Username is required
+             </span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group"
+             ng-class="{ 'has-error': form.password.$error.required && model.submitted}">
             <input ng-model="password"
                    type="password"
+                   name="password"
                    class="form-control"
-                   placeholder="password"/>
+                   placeholder="password"
+            required/>
+            <span ng-show="form.password.$error.required && model.submitted"
+                  class="help-block">
+            Password is required
+             </span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group"
+             ng-class="{ 'has-error': form.verifypassword.$error.required && model.submitted}">
             <input ng-model="verifypassword"
+                   name="verifypassword"
+                   id="verifypassword"
                    type="password"
                    class="form-control"
-                   placeholder="verify password"/>
+                   placeholder="verify password"
+                   required/>
+            <span ng-show="form.verifypassword.$error.required && model.submitted"
+                  class="help-block">
+            Verify Password is required
+             </span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group"
+             ng-class="{ 'has-error': form.imageurl.$error.required && model.submitted}">
             <input ng-model="imageurl"
+                   name="imageurl"
                    id="imageurl"
                    type="text"
                    class="form-control"
-                   placeholder="www.exampleimage.com/image"/>
+                   placeholder="www.exampleimage.com/image"
+                   required/>
+            <span ng-show="form.imageurl.$error.required && model.submitted"
+                  class="help-block">
+            Imageurl is required
+             </span>
+        </div>
+
+        <div class="form-group"
+             ng-class="{ 'has-error': form.Description.$error.required && model.submitted}">
+            <input ng-model="Description"
+                   name="Description"
+                   id="Description"
+                   type="text"
+                   class="form-control"
+                   placeholder="A small introduction"
+                   required/>
+            <span ng-show="form.Description.$error.required && model.submitted"
+                  class="help-block">
+            Description is required
+             </span>
         </div>
 
         <a  class="btn btn-block btn-primary btn-xl"
-            ng-click="model.register(username, password, verifypassword,imageurl)">
+            ng-click="model.register(username, password, verifypassword,imageurl, Description)">
             Register
         </a>
 
