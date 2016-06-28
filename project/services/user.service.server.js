@@ -64,6 +64,7 @@ module.exports = function(app, models) {
                     if (user) {
                         //console.log(user)
                         //console.log(profile.token)
+                        console.log(user);
                         return done(null, user);
                     }
                     else {
@@ -77,7 +78,7 @@ module.exports = function(app, models) {
                             imageurl: "https://graph.facebook.com/" + profile.id + "/picture" + "?width=200&height=200" + "&access_token=" + token
 
                         };
-                        createNewUser(newUser);
+                        userCreateInAPIServer(newUser,null);
                         // userModel
                         //     .createUser(newUser)
                         //     .then(
@@ -357,12 +358,7 @@ module.exports = function(app, models) {
 
     function createUser(req, res) {
         var newUser = req.body;
-        createNewUser(newUser);
-    }
-
-    function createNewUser(newUser)
-        {
-            userModel
+        userModel
                 .findUserByUsername(newUser.username)
                 .then(
                     function (user) {
@@ -397,7 +393,6 @@ module.exports = function(app, models) {
                 console.log(body);
             }
         })
-
     }
 
 
