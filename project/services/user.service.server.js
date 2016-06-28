@@ -6,15 +6,13 @@ var bcrypt = require("bcrypt-nodejs");
 
 module.exports = function(app, models) {
     var userModel = models.userModel;
-
     var multer = require('multer');
-    var upload = multer({ dest: __dirname+'/../../public/uploads' });
-
     var facebookConfig = {
-        clientID     : "1115644975165191",
-        clientSecret : "a17eebd67d5ad289ef6413a777e02af9",
-        callbackURL  : "http://localhost:3000/auth/project/facebook/callback"
+        clientID     : process.env.FACEBOOK_CLIENT_ID,
+        clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
+        callbackURL  : process.env.FACEBOOK_CALLBACK_URL
     };
+
 
     //app.post ("/project/api/upload", upload.single('myFile'), uploadImage);
     app.post("/project/api/login", passport.authenticate('project'), login);
