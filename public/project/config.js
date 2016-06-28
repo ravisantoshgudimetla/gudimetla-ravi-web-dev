@@ -14,11 +14,8 @@
             .when("/register", {
                 templateUrl: "views/user/register.view.client.html",
                 controller: "RegisterController",
-                controllerAs: "model",
-                resolve: {
-                    loggedIn : checkLoggedIn
-                }
-
+                controllerAs: "model"
+                
             })
             .when("/project/admin/user/:uid", {
                 templateUrl: "views/user/userlist.view.client.html",
