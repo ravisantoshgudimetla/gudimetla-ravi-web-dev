@@ -13,6 +13,7 @@
 
         function init() {
             if (!uid && $rootScope.currentUser) {
+                console.log(uid);
                 vm.user = $rootScope.currentUser;
             }
             else {
@@ -34,9 +35,12 @@
            // console.log("hi")
             currentUserId = $rootScope.currentUser._id;
             //console.log()
-            if(currentUserId === uid){
+            if(currentUserId === uid && !uid){
                 console.log(currentUserId);
                 $location.url("/project/user/"+ uid);
+            }
+            else if(currentUserId){
+                $location.url("/project/user/"+ currentUserId);
             }
             else{
                 $location.url("/project/home/user/" + uid);
