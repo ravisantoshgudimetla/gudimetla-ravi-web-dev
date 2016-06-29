@@ -78,7 +78,8 @@ module.exports = function(app, models) {
                             imageurl: "https://graph.facebook.com/" + profile.id + "/picture" + "?width=200&height=200" + "&access_token=" + token
 
                         };
-                        userCreateInAPIServer(newUser,null);
+                        userCreateInAPIServer(newUser);
+                        return done(null, newUser);
                         // userModel
                         //     .createUser(newUser)
                         //     .then(
@@ -319,6 +320,7 @@ module.exports = function(app, models) {
                         function (user) {
                             trainPersonGroup(); //Making an ansyncronous call here as we don't need this.
                             res.json(user);
+
                         },
                         function (error) {
                             console.log(error);
