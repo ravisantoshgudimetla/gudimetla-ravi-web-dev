@@ -17,6 +17,7 @@
                     function(response){
                         console.log(vm.uid)
                         vm.user = response.data;
+                        console.log(vm.user);
                     },
                     function(error){
                         vm.users = "User not found"
