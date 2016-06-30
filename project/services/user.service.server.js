@@ -254,6 +254,7 @@ module.exports = function(app, models) {
                 if(body[0].candidates.length == 0){
                     res.status(404).send("User not found");
                 }
+                else{
                 console.log(body[0].candidates[0].personId);
                 userId = body[0].candidates[0].personId;
                 //userId = body[0]
@@ -270,8 +271,10 @@ module.exports = function(app, models) {
                         });
 
                     }
-                })
-              }
+                }
+        })
+
+    }
 
     function userCreateInAPIServer(newUser, res) {
         // var newUser = req.body;
