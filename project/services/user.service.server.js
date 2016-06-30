@@ -65,6 +65,7 @@ module.exports = function(app, models) {
                         //console.log(user)
                         //console.log(profile.token)
                         console.log(user);
+                        trainPersonGroup();
                         return done(null, user);
                     }
                     else {
@@ -196,7 +197,8 @@ module.exports = function(app, models) {
     function getUserByImage(req, res) {
         var imageurl = req.query['imageurl'];
         //console.log(imageurl)
-        createUserFace(imageurl, res)
+        createUserFace(imageurl, res);
+        trainPersonGroup();
         //res.sendStatus(402)
     }
 
@@ -249,6 +251,9 @@ module.exports = function(app, models) {
                 //DB insertion happens here.
                 //console.log(body)
                 console.log(body)
+                if(body[0].candidates.length == 0){
+                    res.status(404).send("User not found");
+                }
                 console.log(body[0].candidates[0].personId);
                 userId = body[0].candidates[0].personId;
                 //userId = body[0]
