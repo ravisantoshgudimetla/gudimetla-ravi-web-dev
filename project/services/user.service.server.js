@@ -65,7 +65,7 @@ module.exports = function(app, models) {
                         //console.log(user)
                         //console.log(profile.token)
                         console.log(user);
-                        trainPersonGroup();
+                       // trainPersonGroup();
                         return done(null, user);
                     }
                     else {
@@ -198,7 +198,7 @@ module.exports = function(app, models) {
         var imageurl = req.query['imageurl'];
         //console.log(imageurl)
         createUserFace(imageurl, res);
-        trainPersonGroup();
+       // trainPersonGroup();
         //res.sendStatus(402)
     }
 
