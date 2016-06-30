@@ -15,6 +15,8 @@
             if (!uid && $rootScope.currentUser) {
                 console.log(uid);
                 vm.user = $rootScope.currentUser;
+                getFollowingCount(vm.user._id);
+                getFollowerCount(vm.user._id);
             }
             else {
                 UserService
