@@ -18,6 +18,7 @@
                         console.log(vm.uid)
                         vm.user = response.data;
                         console.log(vm.user);
+                        vm.checkUserExists = "true";
                     },
                     function(error){
                         vm.error = "User not found";
