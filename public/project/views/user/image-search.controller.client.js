@@ -15,6 +15,7 @@
                .searchUserByImage(imageurl)
                 .then(
                     function(response){
+                        console.log(vm.uid)
                         vm.user = response.data;
                     },
                     function(error){

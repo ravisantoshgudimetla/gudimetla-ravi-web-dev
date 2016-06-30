@@ -256,7 +256,7 @@ module.exports = function(app, models) {
                     .findUserByAPIId(userId)
                     .then(
                         function (user) {
-                            //console.log(user)
+                            console.log(user)
                             res.send(user);
                         },
                         function (error) {
