@@ -68,7 +68,9 @@
                 templateUrl: "views/user/userhome.view.client.html",
                 controller: "HomePageController",
                 controllerAs: "model",
-                
+                resolve: {
+                    loggedIn : checkLoggedIn
+                }
             })
 
             //default route - login
