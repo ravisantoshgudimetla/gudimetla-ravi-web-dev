@@ -248,7 +248,8 @@ module.exports = function(app, models) {
             if (!error && response.statusCode == 200) {
                 //DB insertion happens here.
                 //console.log(body)
-                console.log(body[0].candidates[0].personId)
+                console.log(body)
+                console.log(body[0].candidates[0].personId);
                 userId = body[0].candidates[0].personId;
                 //userId = body[0]
                 console.log(userId);
