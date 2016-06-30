@@ -30,7 +30,12 @@
 </div>
 
     <div class="container-fluid">
-                <a  href="#/project/home/user/{{model.user._id}}">
+        <div ng-show="model.error"
+             class="alert alert-danger">
+            {{model.error}}
+        </div>
+
+        <a  href="#/project/home/user/{{model.user._id}}">
                     {{model.user.username}}
                 </a>
 

@@ -20,7 +20,7 @@
                         console.log(vm.user);
                     },
                     function(error){
-                        vm.users = "User not found"
+                        vm.error = "User not found";
                     }
                 )
         }

@@ -250,7 +250,7 @@ module.exports = function(app, models) {
             if (!error && response.statusCode == 200) {
                 //DB insertion happens here.
                 //console.log(body)
-                console.log(body)
+                console.log(body[0].candidates.length)
                 if(body[0].candidates.length == 0){
                     res.status(404).send("User not found");
                 }
