@@ -10,7 +10,8 @@ module.exports = function(app, models) {
     var facebookConfig = {
         clientID     : process.env.FACEBOOK_CLIENT_ID,
         clientSecret : process.env.FACEBOOK_CLIENT_SECRET,
-        callbackURL  : process.env.FACEBOOK_CALLBACK_URL
+        callbackURL  : process.env.FACEBOOK_CALLBACK_URL,
+        enableProof  : true
     };
 
 
@@ -79,14 +80,10 @@ module.exports = function(app, models) {
                             imageurl: "https://graph.facebook.com/" + profile.id + "/picture" + "?width=200&height=200" + "&access_token=" + token
 
                         };
-                        if(null!= imageurl){
+
                         userCreateInAPIServer(newUser, function(){
                             return done(null, newUser);
                         });
-                        }
-                            else{
-                                return done(null, newUser);
-                            }
 
 
                         // userModel
