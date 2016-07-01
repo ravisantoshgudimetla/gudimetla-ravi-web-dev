@@ -84,6 +84,10 @@ module.exports = function(app, models) {
                             return done(null, newUser);
                         });
                         }
+                            else{
+                                return done(null, newUser);
+                            }
+
 
                         // userModel
                         //     .createUser(newUser)
