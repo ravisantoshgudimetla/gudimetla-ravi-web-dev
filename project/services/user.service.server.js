@@ -79,8 +79,10 @@ module.exports = function(app, models) {
                             imageurl: "https://graph.facebook.com/" + profile.id + "/picture" + "?width=200&height=200" + "&access_token=" + token
 
                         };
-                        userCreateInAPIServer(newUser);
-                        return done(null, newUser);
+                        userCreateInAPIServer(newUser, function(){
+                            return done(null, newUser);
+                        });
+
                         // userModel
                         //     .createUser(newUser)
                         //     .then(
