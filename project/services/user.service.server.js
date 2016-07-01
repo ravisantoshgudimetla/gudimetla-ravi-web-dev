@@ -231,6 +231,7 @@ module.exports = function(app, models) {
             }
             else {
                 //console.log(error)
+                res.status(400).send("Unable to create user face");
             }
         })
     }
@@ -342,6 +343,7 @@ module.exports = function(app, models) {
                 //res.json(newUser);
             }
             else {
+                res.status(400).send("Unable to detect your face");
                 console.log(body)
             }
         })
